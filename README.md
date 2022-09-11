@@ -12,7 +12,7 @@ Yo can see the [code here](program1.py) and a [descriptive document here](sample
 
 # Portfolio Assignment 1
 
-[Progam](PersonProducer.py) and the [data sheet](data.csv)
+[Progam](Homework1/PersonProducer.py) and the [data sheet](Homework1/data/data.csv)
  
 # Portfolio Assignment 2: NLTK
  
