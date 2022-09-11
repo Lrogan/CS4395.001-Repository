@@ -13,9 +13,9 @@ class Person:
         self.phone = phone
     
     def display(self):
-        print("Employee id: " + self.id)
-        print("\t" + self.first + " " + self.mi + " " + self.last)
-        print("\t" + self.phone)
+        print("Employee id: ", self.id)
+        print("\t", self.first , " " , self.mi , " " , self.last)
+        print("\t" , self.phone)
 
 def dataInput(file):
     print("Processing data file.")
@@ -28,22 +28,38 @@ def dataInput(file):
         print("Parsing Line: " + str(count) + "/" + str(len(text_in)))
         count += 1
         fields = line.split(sep=",")
-        fields[0] = fields[0].capitalize
-        fields[1] = fields[1].capitalize
-        fields[2] = 'X' if fields[2] == '' else fields[2].capitalize
-        fields[3] = validID(fields[3], list(person_dict.keys()))
-        fields[4] = validPhone(fields[4])
+        
+        #process last name
+        pLN = str(fields[0]).capitalize()
+        fields[0] = str(pLN)
+
+        #process first name
+        pFN = str(fields[1]).capitalize()
+        fields[1] = str(pFN)
+        
+        #process middle initial
+        pMI = 'X' if fields[2] == '' else str(fields[2]).capitalize()
+        fields[2] = str(pMI)
+
+        #process ID
+        fields[3] = validID(str(fields[3]), list(person_dict.keys())) 
+
+        #Process Phone
+        fields[4] = validPhone(str(fields[4])) 
         print("Valid Person Detected Adding to Dictionary")
-        person_dict[fields[3]] = Person(fields[0], fields[1], fields[2], fields[3], fields[4])
+        person_dict[fields[3]] = Person(fields[0], fields[1], fields[2], fields[3], fields[4]) #add key-value pair of ID-Person in person_dict
     return person_dict
 
-#checks for a valid phone number, and repeats asking for a valid one until one is given
+#makes all phone numbers into valid format
 def validPhone(phone):
     newPhone = phone
-    while(not re.search("", newPhone)):
-        print("Phone " + newPhone + " is invalid")
-        print("Enter phone number in from 123-456-7890")
-        newPhone = input("Enter phone number: ")
+    phonePattern = re.compile(r'^(\d{3})(-|.|\s)(\d{3})(-|.|\s)(\d{4})$')
+    regexResult = phonePattern.search(newPhone)
+    if regexResult:
+        groups = regexResult.groups()
+        newPhone = groups[0] + "-" + groups[2] + "-" + groups[4]
+    else:
+        newPhone = newPhone[0:3] + "-" + newPhone[3:6] + "-" + newPhone[6:]
     return newPhone
 
 #checks for a valid Id and repeats asking for a valid one until one is given
@@ -59,15 +75,22 @@ def validID(id, keys):
         
 
 if __name__ == '__main__':
-    # if len(sys.argv) < 2:
-    #     print("Please enter a file name as a system arg")
-    # elif sys.argv[1] != 'data/data.csv':
-    #     print("The relative path must data/data.csv must be specified in the sysargs")
-    # else:
-    #     file = sys.argv[1]
-    #     dataInput(file)
-    file = 'Homework1/data/data.csv'
+    if len(sys.argv) < 2:
+        sys.exit("Exiting Pogram: Please enter a file name as a system arg")
+    elif sys.argv[1] != 'data/data.csv':
+        sys.exit("Exiting Pogram: The relative path must data/data.csv must be specified in the sysargs")
+    else:
+        file = sys.argv[1]
+        dataInput(file)
+    # file = 'Homework1/data/data.csv'
     dict_created = dataInput(file)
-    pickle.dump(dict_created, 'dict.p', 'wb')
+
+    print("Printing dict_created")
+    for t in dict_created.values():
+        t.display()
+
+    pickle.dump(dict_created, open('dict.p', 'wb'))
     dict_in = pickle.load(open('dict.p', 'rb'))
-    print(dict_in)
+    print("\nPrinting unpicked dict_in:")
+    for t in dict_in.values():
+        t.display()
