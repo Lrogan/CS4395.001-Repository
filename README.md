@@ -16,4 +16,4 @@ Yo can see the [code here](program1.py) and a [descriptive document here](sample
  
 # Portfolio Assignment 2: NLTK
  
-[Jupyter Notebook](Porfolio_Assignment2/Portfolio_Assignment2-ajc200002.ipynb)      [PDF](Porfolio_Assignment2/Portfolio_Assignment2-ajc200002.pdf)
+[Jupyter Notebook](Porfolio_Assignment2/Portfolio_Assignment2-ajc200002.ipynb)   |    [PDF](Porfolio_Assignment2/Portfolio_Assignment2-ajc200002.pdf)
