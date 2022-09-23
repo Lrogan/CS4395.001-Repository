@@ -2,7 +2,6 @@ import sys
 import pathlib
 import pickle
 import re
-from typing import Dict
 
 class Person:
     def __init__(self, last, first, mi, id, phone):
