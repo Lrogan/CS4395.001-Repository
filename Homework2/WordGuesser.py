@@ -1,9 +1,11 @@
+import sys
 import nltk
 from nltk import word_tokenize
 from nltk import sent_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-import pickle
+from random import seed
+from random import randint
 
 def inputData(file):
   print("Processing data file.")
@@ -43,32 +45,74 @@ def inputData(file):
 
 def dictMaker(data):
   print("Print noun words with counts: ")
+  #parse data into easier to use variables
   nounsNoTags = [n[0] for n in data[1]]
   uniqueNouns = set(nounsNoTags)
   allTokens = data[0]
 
+  #create dict
   pos_dict = {}
   for n in uniqueNouns:
     pos_dict[n] = allTokens.count(n)
 
-  for pos in sorted(pos_dict, key=pos_dict.get, reverse=True):
+  #print the top 50 in dict with correct format
+  for pos in sorted(pos_dict, key=pos_dict.get, reverse=True)[:50]:
     print(pos, ':', pos_dict[pos])
 
-  return [pos for pos in sorted(pos_dict, key=pos_dict.get, reverse=True)]
+  #Uses list comprehension to create a list of the dict in order from most common to least then truncate to first 50
+  return [pos for pos in sorted(pos_dict, key=pos_dict.get, reverse=True)][:50]
+
+def playRound(answer, currentGuess):
+  print(*currentGuess)
+  letterGuess = input("Guess a letter:")
+
+  if letterGuess in answer:
+    # add the letter guess to current guess
+    count = 0
+    for c in answer:
+      if c == letterGuess:
+        currentGuess[count] = c
+      count += 1
+
+    print("Correct!")
+    return 1
+  elif letterGuess == "!":
+    print("Goodbye, Hope you play again soon!")
+    return -400
+  else:
+    print("Sorry, guess again.")
+    return -1
 
 def wordGuesser(words):
+  #init all the vars to play the game
   score = 5
+  seed(50123)
   
+    #fix answer format to list
+  answerSelected = words[randint(0, len(words)-1)]
+  answer = [c for c in answerSelected]
+  currentGuess = ["_" for c in answer]
+
+  #start the game
+  print("Let's Play A Guessing Game!")
+
+  #play rounds while the score is positive and the answer has not been guessed
+  while score >= 0 and not currentGuess == answer:
+    score += playRound(answer, currentGuess)
+    print("Current Score: ", score)
+
+  if score < 0:
+    print("Game Over, better luck next time!")
+  else:
+    print("You solved it!")
   
 
 if __name__ == '__main__':
-  # if len(sys.argv) < 2:
-  #     sys.exit("Exiting Pogram: Please enter a file name as a system arg.")
-  # else:
-  #     file = sys.argv[1]
-  #     dataInput(file)
-  file = 'Homework2/anat19.txt'
+  if len(sys.argv) < 2:
+      sys.exit("Exiting Pogram: Please enter a file name as a system arg.")
+  else:
+      file = sys.argv[1]
+      data = inputData(file)
 
-  data = inputData(file)
   words = dictMaker(data)
   wordGuesser(words)
