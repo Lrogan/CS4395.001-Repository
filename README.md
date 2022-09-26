@@ -17,6 +17,6 @@ A Repository for all code assignments for Human Language Technologies
 
 [Program](Homework2/WordGuesser.py) and the [text file](Homework2/anat19.txt)
 
-#Portfolio Assignment 3: WordNet
+# Portfolio Assignment 3: WordNet
 
 [Jupyter Notebook](Porfolio_Assignment3/WordNet.ipynb)   |    [PDF](Porfolio_Assignment3/Portfolio_Assignment3-ajc200002.pdf)
