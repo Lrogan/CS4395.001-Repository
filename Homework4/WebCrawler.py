@@ -4,6 +4,7 @@ import requests
 import urllib.request
 from urllib.request import Request
 from bs4 import BeautifulSoup
+import nltk
 from nltk.corpus import stopwords
 from nltk import sent_tokenize
 from nltk import word_tokenize
@@ -103,7 +104,7 @@ def sentancer():
 
   for filename in os.scandir(directory):
     siteText = getSiteText(filename)
-    with open('Homework4/SiteSents/site[' + str(count) + ']Text.txt', 'w', encoding="utf-8") as f:
+    with open('Homework4/SiteSents/site[' + str(count) + ']Sent.txt', 'w', encoding="utf-8") as f:
       noNewLine = siteText.replace('\n', " ")
       noTabs = noNewLine.replace('\t', " ")
       sentances = sent_tokenize(noTabs)
@@ -115,9 +116,10 @@ def importantWords():
   sentancer()
   
   directory = 'Homework4/SiteSents'
-  count = 0
+  pos_dict = {}
 
   for filename in os.scandir(directory):
+    print(filename.path)
     #remove punctuation from the site text
     siteText = getSiteText(filename).translate(str.maketrans('','', string.punctuation))
     
@@ -125,23 +127,26 @@ def importantWords():
     wordTokens = word_tokenize(siteText)
     #lowercase the tokens, and remove non alpha and english stopwords
     lowerWordTokens = [t.lower() for t in wordTokens]
-    processedTokens = [t for t in lowerWordTokens if t.isalpha() and t not in stopwords.words('english')]
+    processedTokens = [t for t in lowerWordTokens if t.isalpha() and t not in stopwords.words('english') and len(t) > 6]
 
     #calculate term frequency
-    word_count = {}
-    for word in processedTokens:
-        if word not in word_count:
-            word_count[word] = 1
-        elif word in word_count:
-            word_count[word] += 1
-    print(word_count)
+    for n in processedTokens:
+      pos_dict[n] = processedTokens.count(n)
     
+  for pos in sorted(pos_dict, key=pos_dict.get, reverse=True)[:40]:
+    print(pos, ':', pos_dict[pos])
 
+def buildKnowledgeBase():
+  with open('Homework4/ManuallyImportantWords.txt') as f:
+    words = f.readlines()
 
-
+  for filename in os.scandir('Homework4/SiteSents'):
+    siteText = getSiteText(filename)
+      
 
 if __name__ == '__main__':
   starter_url = "https://en.wikipedia.org/wiki/Microservices"
   # web_crawler(starter_url)
   importantWords()
+  buildKnowledgeBase()
   
