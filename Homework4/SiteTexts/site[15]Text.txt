@@ -1,0 +1,314 @@
+
+ 
+ 
+ 
+ 
+ 
+  CentralNotice  
+ 
+ 
+ Microservices 
+ 
+ aus Wikipedia, der freien Enzyklopädie 
+ 
+ 
+ 
+ Zur Navigation springen 
+ Zur Suche springen 
+ 
+ 
+ 
+Dieser Artikel ist nicht hinreichend mit  Belegen  (beispielsweise  Einzelnachweisen ) ausgestattet. Angaben ohne ausreichenden Beleg könnten demnächst entfernt werden. Bitte hilf Wikipedia, indem du die Angaben recherchierst und  gute Belege einfügst. 
+ 
+ Microservices  sind ein  Architekturmuster  der  Informationstechnik , bei dem komplexe  Anwendungssoftware  aus unabhängigen  Prozessen  generiert wird, die untereinander mit sprachunabhängigen  Programmierschnittstellen  kommunizieren. Die  Dienste  sind weitgehend  entkoppelt  und erledigen eine kleine Aufgabe. So ermöglichen sie einen  modularen  Aufbau von Anwendungssoftware. [1] [2] 
+ 
+ Inhaltsverzeichnis 
+ 
+ 1   Philosophie und Details 
+ 2   Typische Bestandteile einer Microservice-Architektur 
+ 3   Abgrenzung zu SOA 
+ 4   Vorteile 
+ 5   Nachteile 
+ 6   Beispiele 
+ 7   Implementierungen 
+ 8   Neuere Entwicklungen 
+ 9   Siehe auch 
+ 10   Literatur 
+ 11   Einzelnachweise 
+ 
+ 
+ Philosophie und Details [ Bearbeiten  |  Quelltext bearbeiten ] 
+ Der Gedanke hinter Microservices entspricht weitgehend dem der  Unix-Philosophie  („ Do One Thing and Do It Well “, frei übersetzt: „Erledige nur eine Aufgabe und erledige sie gut“). Die Dienste sollten üblicherweise die folgenden Eigenschaften haben:
+ 
+ Die Services können einfach ersetzt werden.
+ Der Umfang eines Microservices sollte für jedes Teammitglied überschaubar sein. 
+ Ein Microservice sollte vom zuständigen Team (üblicherweise 5 bis 7 Entwickler) mit vertretbarem Zeitaufwand (z. B. innerhalb eines Monats) neu erstellt und ersetzt werden können. 
+ Ein Microservice sollte einen  Bounded Context  im Sinne von  Domain-driven Design  implementieren.
+ Die Dienste haben eine einzige Geschäftsfunktion. Sie können beispielsweise einen Bestellvorgang, die Registrierung oder die Rechnungserstellung umfassen, jedoch nicht mehrere dieser Dinge. 
+ Der Nutzen für den Benutzer steht im Mittelpunkt.
+ Die Kernfunktionalität sollte frühzeitig ausgeliefert werden, um einen möglichst frühen Nutzen bereitzustellen. 
+ Schnittstellen sollten, z. B. über  Humane Registries , selbstdokumentierend sein. Beispielsweise  Swagger  für JSON-basierte REST-Services. 
+ Nach der Bereitstellung einer neuen Version des Services muss die alte Version des Endpunktes für eine bestimmte Zeit weiter bereitgestellt werden.  →  Hauptartikel :  REST-Versionierung 
+ Ein Microservice wird nur von einem Team entwickelt. Die Architektur liegt über den Microservices und ist auf Grund des  Gesetzes von Conway  durch die Teamaufteilung sichtbar. Alternativ dazu kann ein Team für mehrere fachlich zusammenhängende Microservices verantwortlich sein.
+ Kommunikationsoverhead und Interessenskonflikte zwischen Teams werden auf der Ebene der Architektur behandelt. 
+ Die Schnittstellen verstecken Implementierungsdetails.
+ Es werden dabei bevorzugt Standardverfahren mit geringem Overhead, wie  REST , eingesetzt. 
+ Es sollte nicht ersichtlich sein, mit welcher Architektur ein Microservice selbst implementiert wurde. 
+ Datenbanken werden nicht von mehreren Services verwendet, sondern immer nur von einem einzigen Service. Dies betrifft auch Zugriffe über  Views  und  Stored Procedures . 
+ Microservices werden gegenüber anderen Services isoliert.
+ Jeder Microservice kann eine andere Programmiersprache, Datenbank oder einen ganz anderen  Technologie-Stack  nutzen. 
+ Microservices sollten Abhängigkeiten untereinander vermeiden und wenn dann nur asynchrone Abhängigkeiten haben. 
+ Jeder Microservice sollte unabhängig von anderen Microservices in Produktion gebracht werden können. 
+ Objekte, welche in mehreren Bounded Contexts vorkommen, werden in jedem Service getrennt implementiert. Beispielsweise wird derselbe Kunde in einem Authentifizierungssystem, einem Bestellsystem, einem Logistiksystem und einem Rechnungssystem jeweils durch unterschiedliche Objekte repräsentiert, da an die Objekte unterschiedliche Anforderungen gestellt werden. 
+ Microservices werden in getrennten  OS-Containern ,  virtuellen Maschinen  oder  Servern  ausgeliefert. Dies sichert den Service gegenüber einer Überlastung des Host-Systems durch einen anderen Service. 
+ Wie alle Services müssen auch Microservices sicher sein:
+ Microservices sollten  dezentralisiert  und  horizontal skalierbar  sein. Funktionale Architekturen mit Zustandsfreiheit werden bevorzugt. Dies betrifft etwa Caches (z. B. zum Speichern von Benutzer-Sessions), welche als eigener Service, etwa in Form einer  In-Memory   Key-Value-Datenbank , ausgeführt werden müssen. 
+ Microservices isolieren Fehlerereignisse und -zustände von anderen Services. 
+ Logging ,  Monitoring  und  Operations-Datenbanken  ermöglichen die Beobachtbarkeit. 
+ Authentifizierung ,  Autorisierung  und  Kryptographie  sichern die Daten vor ungewünschtem Zugriff. 
+ Die Größe eines Microservices wird hierbei dadurch nach unten begrenzt, dass die Netzwerkkommunikation zwischen Microservices ressourcenintensiv ausfallen kann und für jeden Microservice ein eigenes Deployment vorgesehen werden muss.
+ 
+ Typische Bestandteile einer Microservice-Architektur [ Bearbeiten  |  Quelltext bearbeiten ] 
+ Microservices benötigen sehr viel Infrastruktur, welche durch jeweils eigenständige Services implementiert wird.
+ Für die Lastverteilung externer HTTP-Anfragen von Clienten kommen  Load-Balancer  zum Einsatz. Statische Inhalte werden mittels eines  Content Delivery Network  ausgeliefert.
+ Die für die Geschäftsanforderungen zuständigen Services werden durch eine Reihe von Plattform- oder Infrastruktur-Services unterstützt. Diese übernehmen zentrale Aufgaben wie das  Anwendungs-  und  Service-Monitoring ,  Logging -Webservices,  Operations-Datenbanken ,  Konfigurationsmanagement ,  Verschlüsselung ,  Autorisierung  und  Authentifizierung , sowie  Autoscaling ,  Softwareverteilung ,  A/B-Testing  und  Fault-Injection-Testing  (FIT). Zudem gibt es zentrale  Routingdienste , welche sich um die Zuordnung von  URLs  zu Instanzen mit den jeweiligen Diensten kümmern.
+ Hierzu kommen noch Dienste für die  Datenpersistierung , insbesondere  Caching ,  relationale Datenbanken  und  NoSQL -Datenbanken, sowie  BLOB -Speicher für beliebige Dateien.
+ 
+ Abgrenzung zu SOA [ Bearbeiten  |  Quelltext bearbeiten ] 
+ Sowohl SOA ( Serviceorientierte Architektur ) als auch Microservices nutzen Dienste als Architektur-Elemente.
+ SOA nutzt Dienste, um verschiedene Anwendungen zu integrieren. Die Kombination der Dienste erfolgt durch  Orchestrierung  oder  Choreografie , und Portale können eine gemeinsame  Benutzerschnittstelle  (UI) für alle Dienste bieten.
+ Microservices strukturieren eine Anwendung durch Dienste. Jeder Microservice kann eine Benutzerschnittstelle enthalten und Geschäftsprozesse implementieren, wie sie bei SOA in der Orchestrierung zu finden sind.
+ 
+ Vorteile [ Bearbeiten  |  Quelltext bearbeiten ] 
+ Weil Microservices unabhängig voneinander verteilt und entwickelt werden können, können Teams unabhängiger voneinander arbeiten. Das ermöglicht die Skalierung agiler Entwicklungs-Prozesse, ohne viel Kommunikations- und Koordinationsaufwand zu erzeugen. 
+ Microservices sind idealerweise klein. Dadurch bleiben sie übersichtlich und leicht weiterentwickelbar. Bei Bedarf können sie durch eine Neuimplementierung ersetzt werden. 
+ Oft schleichen sich bei Systemen ungewollte Abhängigkeiten ein. Die Abhängigkeiten zwischen Microservices müssen über die API eingeführt werden. Das ist aufwändig und passiert nicht aus Versehen. 
+ Microservices können unabhängig voneinander skaliert werden. 
+ Microservice-Systeme können gegen den Ausfall anderer Services abgesichert werden, so dass das Gesamtsystem robust ist. 
+ Wenn Schlüsseldienste identifiziert wurden, können im Falle einer Überlastung unkritische Services reduziert oder abgeschaltet werden, um Ressourcen für kritische Services frei zu machen. 
+ Nachteile [ Bearbeiten  |  Quelltext bearbeiten ] 
+ Microservices werden wegen einiger Merkmale kritisiert:
+ 
+ Die Abhängigkeiten zwischen den Microservices sind bei einer Microservicearchitektur nicht offensichtlich. Es ist oftmals unklar welche Microservices welche anderen Microservices in welcher Version benötigen. 
+ Die verteilte Architektur erzeugt zusätzliche Komplexität, vor allem Netzwerk-Latenzen,  Lastverteilung  oder  Fehlertoleranz  (siehe dazu auch:  Fallacies of Distributed Computing ). 
+ Da es mehr Systeme gibt die ausfallen können als bei monolithischen Services, steigt auch die Wahrscheinlichkeit, dass mindestens eine Komponente ausfällt. Wenn die Microservices wie üblich untereinander synchrone Abhängigkeiten haben, wirkt sich der Ausfall eines Microservices unmittelbar auf das Gesamtsystem aus. 
+ Die Vielzahl an Services macht die  Softwareverteilung  und das  Testen  komplexer. 
+ Der Aufwand für die Migration bestehender Systeme ist beträchtlich und bedeutet in der Regel auch eine Anpassung der Kommunikationskultur in den beteiligten Organisationen. [3] 
+ Das Logging und Monitoring wird komplexer, da mehrere Systeme involviert sind, welche ggf. unterschiedliche Logging- und Monitoringtechnologien einsetzen. Es sollten daher, zusätzlich zu dezentralen Logging- und Monitoringlösungen, zentrale Logging-, Monitoring- und OpsDB-Dienste eingesetzt werden. 
+ Da es sich um ein potenziell weltweit verteiltes System handelt, müssen nicht nur unterschiedliche Zeitzonen der Client-Anwendungen, sondern auch unterschiedliche Zeitzonen der Hosts berücksichtigt werden. Eine Zeitsynchronisierung zwischen den Hosts (z. B. mittels  NTP  oder noch besser  PTP ) und die Verwendung passender Zeit-Bibliotheken (z. B.  Joda Time  oder  Noda Time ) wird damit zwingend notwendig. [4] [5] 
+ Da es sich bei Microservices um eine verteilte Architektur handelt, muss aufgrund des  CAP-Theorems  zwischen Verfügbarkeit der Anwendung und der Datenkonsistenz gewählt werden. Monolithische Systeme können hingegen sowohl maximal verfügbar als auch maximal konsistent sein. 
+ Da die Microservices in unterschiedlichen Programmiersprachen und Software-Stacks implementiert werden können, werden sie das oft auch, was zu den Nachteilen des polyglotten Programmierens führt: Das Know-how kann nicht mehr geteilt werden, es erhöhen sich die Anforderungen an die Entwicklungswerkzeuge und das Plattform-Management. Zudem muss die Funktionalität von Bibliotheken teilweise dupliziert werden. 
+ Beispiele [ Bearbeiten  |  Quelltext bearbeiten ] 
+ Von folgenden Internetdiensten ist bekannt, dass sie Microservices benutzen:
+ 
+ Google [6] 
+ Amazon [7] [6] 
+ Twitter [6] 
+ eBay [6] 
+ Netflix [8] 
+ The Guardian [9] 
+ SoundCloud [10] 
+ Spotify [11] 
+ Zalando [12] 
+ Otto [13] 
+ Implementierungen [ Bearbeiten  |  Quelltext bearbeiten ] 
+ Seneca Microservices Framework and Protocol 
+ Spring Cloud 
+ Vert.x [14] 
+ Azure Service Fabric.  Microsoft,  abgerufen am 2. Januar 2016  (englisch, Technologie für die Entwicklung von Micro- und Nanoservices in .NET).   
+ Jeder Microservice kann in einer anderen Programmiersprache mit einer anderen Technologie entwickelt werden. Also ist die Technologie für die Implementierung der einzelnen Microservices bei weitem nicht so wichtig wie die übergreifenden Technologien für die Integration und Kommunikation. [15] 
+ 
+ Neuere Entwicklungen [ Bearbeiten  |  Quelltext bearbeiten ] 
+ Inzwischen werden auch Abwandlungen dieses Architekturmusters beispielsweise in Form von Macroservices diskutiert. [16]  Ziel ist es, hierüber Nachteile von Microservices zu kompensieren, ohne die Nachteile eines Monolithen in Kauf nehmen zu müssen.
+ 
+ Siehe auch [ Bearbeiten  |  Quelltext bearbeiten ] 
+ Representational State Transfer 
+ Self-contained Systems 
+ Literatur [ Bearbeiten  |  Quelltext bearbeiten ] 
+ Eberhard Wolff:  Microservice-Architekturen.  28. Juli 2015,  abgerufen am 17. Dezember 2015 .   
+ dotnetpro  Nr. 4/2015, S. 12–31 
+ James Lewis, Martin Fowler:  Microservices.  25. März 2014,  abgerufen am 9. November 2015  (englisch).   
+ Sam Newman:  Microservices: Konzeption und Design . mitp, 2015,  ISBN 978-3-95845-081-3  (englisch:  Building Microservices: Designing Fine-Grained Systems . 2015. Übersetzt von Knut Lorenzen).   
+ Christian Horsdal:  Microservices in .NET . Manning Publications, 2016,  ISBN 978-1-61729-337-5 .   
+ Chris Richardson:  A pattern language for microservices.  In:  Microservices.io.  Abgerufen am 4. Mai 2017   
+ Guido Steinacker:  Von Monolithen und Microservices.  In:  Informatik Aktuell.  Abgerufen am 13. Januar 2018   
+ Dr. Jürgen Lampe:  Wo Sie Microservices einsetzen sollten und wo nicht!  In:  Informatik Aktuell.  Abgerufen am 13. Januar 2018   
+ Sven-Torben Janus:  Macroservices – Nicht kleine Teile, sondern das große Ganze.  In:  Informatik Aktuell.  1. Juni 2021 ;  abgerufen am 7. Juni 2021 .   
+ Chris Richardson:  Microservices Patterns . Manning, 2019,  ISBN 978-1-61729-454-9  (englisch, 491 S.).   
+ Einzelnachweise [ Bearbeiten  |  Quelltext bearbeiten ] 
+ 
+ ↑   Eberhard Wolff:  Microservices: Grundlagen flexibler Softwarearchitekturen , 2. Auflage,  ISBN 978-3-86490-555-1 . 
+ 
+ ↑   Sam Newman:  Microservices: Konzeption und Design ,  ISBN 978-3-95845-081-3 . 
+ 
+ ↑   Microservices .  In: In: Jens Fromm und Mike Weber, Hg., 2016: ÖFIT-Trendschau: Öffentliche Informationstechnologie in der digitalisierten Gesellschaft. Berlin: Kompetenzzentrum Öffentliche IT.  ISBN 978-3-9816025-2-4 . 
+ 
+ ↑   Noah Sussman:  Falsehoods programmers believe about time.  In:  Infinite Undo!  Abgerufen am 12. April 2017  (englisch).   
+ 
+ ↑   Noah Sussman:  More falsehoods programmers believe about time; “wisdom of the crowd” edition.  In:  Infinite Undo!  Abgerufen am 12. April 2017  (englisch).   
+ 
+ ↑  a   b   c   d   
+ Todd Hoff:  Deep Lessons From Google And EBay On Building Ecosystems Of Microservices.  In:  High Scalability.  1. Dezember 2015,  abgerufen am 11. März 2017 .   
+ 
+ ↑   Microservices bei Amazon . 
+ 
+ ↑   Microservices bei Netflix . 
+ 
+ ↑   Microservices bei Guardian . 
+ 
+ ↑   Microservices bei SoundCloud . 
+ 
+ ↑   Schedule Thursday (3rd Dec.) - conference . In:  gotocon.com  . Abgerufen am 19. April 2016. 
+ 
+ ↑   From Monolith to Microservices, Zalando’s Journey . In:  infoq.com  . Abgerufen am 5. Oktober 2016. 
+ 
+ ↑   Guido Steinacker:  Von Monolithen und Microservices.  In:  Informatik Aktuell.  2. Juni 2015,  abgerufen am 28. April 2016 .   
+ 
+ ↑   Vertx . 
+ 
+ ↑   Eberhard Wolff:  Das Microservices-Praxisbuch ,  ISBN 978-3-86490-526-1 . 
+ 
+ ↑   Sven-Torben Janus:  Macroservices – Nicht kleine Teile, sondern das große Ganze.  In:  Informatik Aktuell (Magazin) .  Abgerufen am 2. Juni 2021 .   
+ 
+ 
+ Abgerufen von „ https://de.wikipedia.org/w/index.php?title=Microservices&oldid=224350593 “ 
+ Kategorie :  Softwarearchitektur Versteckte Kategorie:  Wikipedia:Belege fehlen 
+ 
+ 
+ 
+ Navigationsmenü 
+ 
+ 
+ 
+ Meine Werkzeuge 
+ 
+ 
+ Nicht angemeldet Diskussionsseite Beiträge Benutzerkonto erstellen Anmelden 
+ 
+ 
+ 
+ 
+ 
+ Namensräume 
+ 
+ 
+ Artikel Diskussion 
+ 
+ 
+ 
+ 
+ 
+ Deutsch 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Ansichten 
+ 
+ 
+ Lesen Bearbeiten Quelltext bearbeiten Versionsgeschichte 
+ 
+ 
+ 
+ 
+ 
+ Weitere 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Suche 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Navigation 
+ 
+ 
+ Hauptseite Themenportale Zufälliger Artikel 
+ 
+ 
+ 
+ 
+ Mitmachen 
+ 
+ 
+ Artikel verbessern Neuen Artikel anlegen Autorenportal Hilfe Letzte Änderungen Kontakt Spenden 
+ 
+ 
+ 
+ 
+ Werkzeuge 
+ 
+ 
+ Links auf diese Seite Änderungen an verlinkten Seiten Spezialseiten Permanenter Link Seiten­informationen Artikel zitieren Wikidata-Datenobjekt 
+ 
+ 
+ 
+ 
+ Drucken/­exportieren 
+ 
+ 
+ Buch erstellen Als PDF herunterladen Druckversion 
+ 
+ 
+ 
+ 
+ In anderen Sprachen 
+ 
+ 
+ বাংলা Čeština English Español Eesti Euskara فارسی Suomi Français 日本語 한국어 Norsk bokmål Polski Русский Simple English Српски / srpski Українська Tiếng Việt 中文 
+ Links bearbeiten 
+ 
+ 
+ 
+ 
+ 
+ 
+  Diese Seite wurde zuletzt am 9. Juli 2022 um 07:39 Uhr bearbeitet. 
+ Abrufstatistik  ·  Autoren   
+Der Text ist unter der Lizenz  „Creative Commons Attribution/Share Alike“  verfügbar; Informationen zu den Urhebern und zum Lizenzstatus eingebundener Mediendateien (etwa Bilder oder Videos) können im Regelfall durch Anklicken dieser abgerufen werden. Möglicherweise unterliegen die Inhalte jeweils zusätzlichen Bedingungen. Durch die Nutzung dieser Website erklären Sie sich mit den  Nutzungsbedingungen  und der  Datenschutzrichtlinie  einverstanden. 
+Wikipedia® ist eine eingetragene Marke der Wikimedia Foundation Inc. 
+ 
+ 
+ Datenschutz 
+ Über Wikipedia 
+ Impressum 
+ Mobile Ansicht 
+ Entwickler 
+ Statistiken 
+ Stellungnahme zu Cookies 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

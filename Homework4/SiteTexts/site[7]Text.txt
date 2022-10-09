@@ -1,0 +1,508 @@
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Microservice Architecture 
+ Supported by  Kong 
+ 
+ 
+ 
+ 
+ Patterns 
+ Articles 
+ Presentations 
+ Resources 
+ Adopt new 
+ Refactoring new 
+ Testing new 
+ Other Languages 
+ 
+ 
+ About 
+ 
+ 
+ 
+ 
+ 
+ 
+ Pattern: Microservice Architecture 
+ Context 
+ You are developing a server-side enterprise application.
+It must support a variety of different clients including desktop browsers, mobile browsers and native mobile applications.
+The application might also expose an API for 3rd parties to consume.
+It might also integrate with other applications via either web services or a message broker.
+The application handles requests (HTTP requests and messages) by executing business logic; accessing a database; exchanging messages with other systems; and returning a HTML/JSON/XML response.
+There are logical components corresponding to different functional areas of the application. 
+ Problem 
+ What’s the application’s deployment architecture? 
+ Forces 
+ 
+ There is a team of developers working on the application 
+ New team members must quickly become productive 
+ The application must be easy to understand and modify 
+ You want to practice continuous deployment of the application 
+ You must run multiple instances of the application on multiple machines in order to satisfy scalability and availability requirements 
+ You want to take advantage of emerging technologies (frameworks, programming languages, etc) 
+ 
+ Solution 
+ Define an architecture that structures the application as a set of loosely coupled, collaborating services.
+This approach corresponds to the Y-axis of the  Scale Cube .
+Each service is: 
+ 
+ Highly maintainable and testable - enables rapid and frequent development and deployment 
+ Loosely coupled with other services - enables a team to work independently the majority of time on their service(s) without being impacted by changes to other services and without affecting other services 
+ Independently deployable - enables a team to deploy their service without having to coordinate with other teams 
+ Capable of being developed by a small team - essential for high productivity by avoiding the high communication head of large teams 
+ 
+ Services communicate using either synchronous protocols such as HTTP/REST or asynchronous protocols such as AMQP.
+Services can be developed and deployed independently of one another.
+Each service has its  own database  in order to be decoupled from other services.
+Data consistency between services is maintained using the  Saga pattern 
+ To learn more about the nature of a service, please  read this article . 
+ Examples 
+ Fictitious e-commerce application 
+ Let’s imagine that you are building an e-commerce application that takes orders from customers, verifies inventory and available credit, and ships them.
+The application consists of several components including the StoreFrontUI, which implements the user interface, along with some backend services for checking credit,
+maintaining inventory and shipping orders.
+The application consists of a set of services. 
+ 
+ Show me the code 
+ Please see the  example applications developed by Chris Richardson .
+These examples on Github illustrate various aspects of the microservice architecture. 
+ Resulting context 
+ Benefits 
+ This solution has a number of benefits: 
+ 
+ Enables the continuous delivery and deployment of large, complex applications.
+     
+ Improved maintainability - each service is relatively small and so is easier to understand and change 
+ Better testability - services are smaller and faster to test 
+ Better deployability - services can be deployed independently 
+ It enables you to organize the development effort around multiple, autonomous teams.
+ Each (so called two pizza) team owns and is responsible for one or more services.
+ Each team can develop, test, deploy and scale their services independently of all of the other teams. 
+ 
+ 
+ Each microservice is relatively small:
+     
+ Easier for a developer to understand 
+ The IDE is faster making developers more productive 
+ The application starts faster, which makes developers more productive, and speeds up deployments 
+ 
+ 
+ Improved fault isolation. For example, if there is a memory leak in one service then only that service will be affected.
+The other services will continue to handle requests.
+In comparison, one misbehaving component of a monolithic architecture can bring down the entire system. 
+ Eliminates any long-term commitment to a technology stack.
+When developing a new service you can pick a new technology stack.
+Similarly, when making major changes to an existing service you can rewrite it using a new technology stack. 
+ 
+ Drawbacks 
+ This solution has a number of drawbacks: 
+ 
+ Developers must deal with the additional complexity of creating a distributed system:
+     
+ Developers must implement the inter-service communication mechanism and deal with partial failure 
+ Implementing requests that span multiple services is more difficult 
+ Testing the interactions between services is more difficult 
+ Implementing requests that span multiple services requires careful coordination between the teams 
+ Developer tools/IDEs are oriented on building monolithic applications and don’t provide explicit support for developing distributed applications. 
+ 
+ 
+ Deployment complexity.
+ In production, there is also the operational complexity of deploying and managing a system comprised of many different services. 
+ Increased memory consumption.
+ The microservice architecture replaces N monolithic application instances with NxM services instances.
+ If each service runs in its own JVM (or equivalent), which is usually necessary to isolate the instances, then there is the overhead of M times as many JVM runtimes.
+ Moreover, if each service runs on its own VM (e.g. EC2 instance), as is the case at Netflix, the overhead is even higher. 
+ 
+ Issues 
+ There are many issues that you must address. 
+ When to use the microservice architecture? 
+ One challenge with using this approach is deciding when it makes sense to use it.
+When developing the first version of an application, you often do not have the problems that this approach solves.
+Moreover, using an elaborate, distributed architecture will slow down development.
+This can be a major problem for startups whose biggest challenge is often how to rapidly evolve the business model and accompanying application.
+Using Y-axis splits might make it much more difficult to iterate rapidly.
+Later on, however, when the challenge is how to scale and you need to use functional decomposition, the tangled dependencies might make it difficult to decompose your monolithic application into a set of services. 
+ How to decompose the application into services? 
+ Another challenge is deciding how to partition the system into microservices.
+This is very much an art, but there are a number of strategies that can help: 
+ 
+ Decompose by business capability  and define services corresponding to business capabilities. 
+ Decompose by domain-driven design subdomain . 
+ Decompose by verb or use case and define services that are responsible for particular actions. e.g. a  Shipping Service  that’s responsible for shipping complete orders. 
+ Decompose by by nouns or resources by defining a service that is responsible for all operations on entities/resources of a given type. e.g. an   Account Service  that is responsible for managing user accounts. 
+ 
+ Ideally, each service should have only a small set of responsibilities.
+(Uncle) Bob Martin talks about designing classes using the  Single Responsibility Principle (SRP) .
+The SRP defines a responsibility of a class as a reason to change, and states that a class should only have one reason to change.
+It make sense to apply the SRP to service design as well. 
+ Another analogy that helps with service design is the design of Unix utilities.
+Unix provides a large number of utilities such as grep, cat and find.
+Each utility does exactly one thing, often exceptionally well, and is intended to be combined with other utilities using a shell script to perform complex tasks. 
+ How to maintain data consistency? 
+ In order to ensure loose coupling, each service has its own database.
+Maintaining data consistency between services is a challenge because 2 phase-commit/distributed transactions is not an option for many applications.
+An application must instead use the  Saga pattern .
+A service publishes an event when its data changes.
+Other services consume that event and update their data.
+There are several ways of reliably updating data and publishing events including  Event Sourcing  and  Transaction Log Tailing . 
+ How to implement queries? 
+ Another challenge is implementing queries that need to retrieve data owned by multiple services. 
+ 
+ The  API Composition  and  Command Query Responsibility Segregation (CQRS)  patterns. 
+ 
+ Related patterns 
+ There are many patterns related to the microservices pattern. The  Monolithic architecture  is an alternative to the microservice architecture.
+The other patterns address issues that you will encounter when applying the microservice architecture. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Decomposition patterns
+     
+ Decompose by business capability 
+ Decompose by subdomain 
+ 
+ 
+ The  Database per Service pattern  describes how each service has its own database in order to ensure loose coupling. 
+ The  API Gateway pattern  defines how clients access the services in a microservice architecture. 
+ The  Client-side Discovery  and  Server-side Discovery  patterns are used to route requests for a client to an available service instance in a microservice architecture. 
+ The Messaging and Remote Procedure Invocation patterns are two different ways that services can communicate. 
+ The  Single Service per Host  and  Multiple Services per Host  patterns are two different deployment strategies. 
+ Cross-cutting concerns patterns:  Microservice chassis pattern  and  Externalized configuration 
+ Testing patterns:  Service Component Test  and  Service Integration Contract Test 
+ Circuit Breaker 
+ Access Token 
+ Observability patterns:
+     
+ Log aggregation 
+ Application metrics 
+ Audit logging 
+ Distributed tracing 
+ Exception tracking 
+ Health check API 
+ Log deployments and changes 
+ 
+ 
+ UI patterns:
+     
+ Server-side page fragment composition 
+ Client-side UI composition 
+ 
+ 
+ 
+ Known uses 
+ Most large scale web sites including  Netflix ,  Amazon 
+and  eBay  have evolved from a monolithic architecture to a microservice architecture. 
+ Netflix, which is a very popular video streaming service that’s responsible for up to 30% of Internet traffic, has a large scale, service-oriented architecture.
+They handle over a billion calls per day to their video streaming API from over 800 different kinds of devices.
+Each API call  fans out to an average of six calls to backend services. 
+ Amazon.com  originally had a two-tier architecture.
+In order to scale they migrated to a service-oriented architecture consisting of hundreds of backend services.
+Several applications call these services including the applications that implement the Amazon.com website and the web service API.
+The Amazon.com website application calls 100-150 services to get the data that used to build a web page. 
+ The auction site ebay.com  also evolved from a monolithic architecture to a service-oriented architecture.
+The application tier consists of multiple independent applications.
+Each application implements the business logic for a specific function area such as buying or selling.
+Each application uses X-axis splits and some applications such as search use Z-axis splits.
+Ebay.com also applies a combination of X-, Y- and Z-style scaling to the database tier. 
+ There are  numerous other examples  of companies using the microservice architecture. 
+ Examples 
+ Chris Richardson has  examples  of microservices-based applications. 
+ See also 
+ See my  Code Freeze 2018 keynote , which provides a good introduction to the microservice architecture. 
+ 
+ 
+ 
+ 
+ - begin: About  
+ 
+ 
+ About Microservices.io 
+ 
+ 
+ 
+ Microservices.io is brought to you by Chris Richardson.
+      Experienced software architect, author of POJOs in Action, the creator of the original CloudFoundry.com, and the author of Microservices patterns.
+       
+ Chris helps clients around the world adopt the microservice architecture through consulting engagements, and training classes and workshops. 
+ 
+ 
+ 
+<div class="panel panel-default">
+  <div class="panel-heading">
+     <h4>Latest articles</h4>
+  </div>
+
+  <div class="panel-body">
+      <p>
+        <a href="/post/misc/2022/01/19/writing-better-problem-reports.html">Writing better problem reports: 6 essential details</a>
+      </p>
+  </div>
+
+</div>
+ 
+ 
+ 
+ Learn how to create a service template and microservice chassis 
+ 
+ 
+ 
+        Take a look at my  Manning LiveProject  that teaches you how to develop a service template and microservice chassis.
+       
+ 
+ 
+ 
+ 
+ 
+ New virtual bootcamp: Distributed data patterns in a microservice architecture 
+ 
+ 
+ 
+ My virtual bootcamp, distributed data patterns in a microservice architecture, is now open for enrollment! 
+ It covers the key distributed data management patterns including Saga, API Composition, and CQRS. 
+ It consists of video lectures, code labs, and a weekly ask-me-anything video conference repeated in multiple timezones. 
+ The regular price is $395/person but use coupon KBDASNIQ to sign up for $190 (valid until October 10th, 2022).
+There are deeper discounts for buying multiple seats.
+ 
+ Learn more 
+ 
+ 
+ 
+  BEGIN: Constant Contact Email List Form Button  
+ Signup for the newsletter  BEGIN: Email Marketing you can trust  For Email Marketing you can trust. 
+ 
+ 
+ 
+ LEARN about microservices 
+ 
+ 
+ Chris offers numerous resources for learning the microservice architecture. 
+ Training classes 
+ Chris teaches  comprehensive workshops, training classes and bootcamps  for executives, architects and developers to help your organization use microservices effectively.
+   
+ 
+  Avoid the pitfalls of adopting microservices and learn essential topics, such as service decomposition and design and how to refactor a monolith to microservices.
+   
+ Delivered in-person and remotely. 
+ 
+ Get the book: Microservices Patterns 
+
+  Read Chris Richardson's book:
+
+   
+ 
+ 
+ 
+ 
+ Example microservices applications 
+ Want to see an example? Check out Chris Richardson's example applications.
+       See code 
+ 
+ 
+ 
+ 
+ BUILD microservices 
+ 
+ 
+    Ready to start using the microservice architecture?
+
+     Consulting services 
+ Engage Chris  to create a microservices adoption roadmap and help you define your microservice architecture,  
+ 
+ The Eventuate platform 
+ Use the  Eventuate.io platform  to tackle distributed data management challenges in your microservices architecture. 
+ 
+ Eventuate is Chris's latest startup. It makes it easy to use the Saga pattern to manage transactions and the CQRS pattern to implement queries. 
+ 
+ 
+ 
+ 
+ ASSESS your architecture 
+ 
+ 
+   Assess your application's microservice architecture and identify what needs to be improved.
+
+   Consulting services 
+ Engage Chris  to conduct an architectural assessment. 
+ 
+ Self assessment 
+ Alternatively, conduct a self-assessment using the  Microservices Assessment Platform . 
+ 
+ 
+ - End: About  
+ 
+ Join the  microservices google group 
+ 
+ 
+ 
+ 
+ The patterns 
+ 
+ 
+ How to apply the patterns 
+ Application architecture patterns 
+ 
+ Monolithic architecture 
+ Microservice architecture 
+ 
+ Decomposition 
+ 
+ Decompose by business capability 
+ Decompose by subdomain 
+ Self-contained Service new 
+ Service per team new 
+ 
+ Refactoring to microservices new 
+ 
+ Strangler Application 
+ Anti-corruption layer 
+ 
+ Data management 
+ 
+ Database per Service 
+ Shared database 
+ Saga 
+ API Composition 
+ CQRS 
+ Domain event 
+ Event sourcing 
+ 
+ Transactional messaging 
+ 
+ Transactional outbox 
+ Transaction log tailing 
+ Polling publisher 
+ 
+ Testing 
+ 
+ Service Component Test 
+ Consumer-driven contract test 
+ Consumer-side contract test 
+ 
+ Deployment patterns 
+ 
+ Multiple service instances per host 
+ Service instance per host 
+ Service instance per VM 
+ Service instance per Container 
+ Serverless deployment 
+ Service deployment platform 
+ 
+ Cross cutting concerns 
+ 
+ Microservice chassis 
+ Service Template 
+ Externalized configuration 
+ 
+ Communication style 
+ 
+ Remote Procedure Invocation 
+ Messaging 
+ Domain-specific protocol 
+ Idempotent Consumer 
+ 
+ External API 
+ 
+ API gateway 
+ Backend for front-end 
+ 
+ Service discovery 
+ 
+ Client-side discovery 
+ Server-side discovery 
+ Service registry 
+ Self registration 
+ 3rd party registration 
+ 
+ Reliability 
+ 
+ Circuit Breaker 
+ 
+ Security 
+ 
+ Access Token 
+ 
+ Observability 
+ 
+ Log aggregation 
+ Application metrics 
+ Audit logging 
+ Distributed tracing 
+ Exception tracking 
+ Health check API 
+ Log deployments and changes 
+ 
+ UI patterns 
+ 
+ Server-side page fragment composition 
+ Client-side UI composition 
+ 
+ 
+    end panel  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Tweet 
+ 
+ 
+ 
+ 
+ Follow @MicroSvcArch 
+ 
+ 
+ 
+ Copyright © 2021 Chris Richardson • All rights reserved • Supported by  Kong . 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Please enable JavaScript to view the  comments powered by Disqus. 
+ 

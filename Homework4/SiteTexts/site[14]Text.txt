@@ -1,0 +1,543 @@
+
+ 
+ 
+ 
+ 
+ 
+  CentralNotice  
+ 
+ 
+ Microservices 
+ 
+ From Wikipedia, the free encyclopedia 
+ 
+ 
+ 
+ Jump to navigation 
+ Jump to search 
+ Collection of loosely coupled services used to build computer applications 
+ Some of this article's  listed sources   may not be  reliable .  Please help this article by looking for better, more reliable sources. Unreliable citations may be challenged or deleted.   ( October 2018 )  ( Learn how and when to remove this template message ) 
+ A  microservice  architecture – a variant of the  SOA  structural style – is an  architectural pattern  that arranges an application as a collection of  loosely-coupled ,  fine-grained  services, communicating through  lightweight protocols . One of its goals is that teams can develop and  deploy  their services independently of others. This is achieved by the reduction of several  dependencies  in the code base, allowing for developers to evolve their services with limited restrictions from users, and for users to be hidden from additional complexity. [1]  As a consequence, organizations are able to develop software with fast growth and size, as well as use off-the-shelf services more easily. Communication requirements are reduced. These benefits come at a cost to maintaining the decoupling. Interfaces need to be designed carefully and treated as a public API. One technique that is used is having multiple interfaces on the same service, or multiple versions of the same service, so as to not disrupt existing users of the code.
+ 
+ Contents 
+ 
+ 1   Introduction 
+ 2   History 
+ 3   Service granularity 
+ 4   Benefits 
+ 5   Criticism and concerns 
+ 
+ 5.1   Cognitive load 
+ 
+ 
+ 6   Technologies 
+ 
+ 6.1   Service mesh 
+ 6.2   A comparison of platforms 
+ 
+ 
+ 7   See also 
+ 8   References 
+ 9   Further reading 
+ 
+ 
+ Introduction [ edit ] 
+ There is no single definition for microservices. A consensus view has evolved over time in the industry. Some of the defining characteristics that are frequently cited include:
+ 
+ Services in a microservice architecture are often  processes  that communicate over a  network  to fulfill a goal using technology-agnostic  protocols  such as HTTP. [2] [3] [4] 
+ Services are organized around business capabilities. [5] 
+ Services can be implemented using different  programming languages ,  databases , hardware and software environments, depending on what fits best. [6] 
+ Services are small in size, messaging-enabled, bounded by contexts, autonomously developed, independently deployable, [7] [6]  decentralized and  built  and  released with automated processes . [7] 
+ A microservice is not a layer within a monolithic application (example, the web controller, or the backend-for-frontend). [8]  Rather, it is a self-contained piece of business functionality with clear interfaces, and may, through its own internal components, implement a layered architecture. From a strategical perspective, microservice architecture essentially follows the  Unix philosophy  of "Do one thing and do it well". [9]   Martin Fowler  describes a microservices-based architecture as having the following properties: [2] 
+ 
+ Lends itself to a  continuous delivery  software development process. A change to a small part of the application only requires rebuilding and redeploying only one or a small number of services. [10] 
+ Adheres to principles such as  fine-grained   interfaces  (to independently deployable services), business-driven development (e.g.  domain-driven design ). [11] 
+ It is common for microservices architectures to be adopted for  cloud-native applications ,  serverless computing , and applications using lightweight  container  deployment. According to Fowler, because of the large number (when compared to monolithic application implementations) of services, decentralized continuous delivery and  DevOps  with holistic service monitoring are necessary to effectively develop, maintain, and operate such applications. [12]  A consequence of (and rationale for) following this approach is that the individual microservices can be individually scaled. In the monolithic approach, an application supporting three functions would have to be scaled in its entirety even if only one of these functions had a resource constraint. [13]  With microservices, only the microservice supporting the function with resource constraints needs to be scaled out, thus providing resource and cost optimization benefits. [14] 
+ 
+ History [ edit ] 
+ There are numerous claims as to the origin of the term microservices.
+Whilst vice president of  ThoughtWorks  in 2004,  Fred George  began working on prototype architectures based on what he called the "Baysean Principles" named after Jeff Bay. [15] 
+ As early as 2005, Peter Rodgers introduced the term "Micro- Web-Services " during a presentation at the Web Services Edge conference. Against conventional thinking and at the height of the  SOAP  SOA architecture hype curve he argued for " REST -services" and on slide #4 of the conference presentation, he discusses " Software components  are Micro-Web-Services". [16]  He goes on to say "Micro-Services are composed using  Unix-like pipelines  (the  Web  meets Unix = true  loose-coupling ). Services can call services (+multiple language run-times). Complex service assemblies are abstracted behind simple  URI  interfaces. Any service, at any granularity, can be exposed." He described how a well-designed microservices platform "applies the underlying architectural principles of the  Web  and REST services together with Unix-like scheduling and pipelines to provide radical flexibility and improved simplicity in service-oriented architectures. [17] 
+ Rodgers' work originated in 1999 with the Dexter research project at  Hewlett Packard Labs , whose aim was to make code less brittle and to make large-scale, complex software systems  robust  to change. [18]  Ultimately this path of research led to the development of  resource-oriented computing  (ROC), a generalized computation abstraction in which REST is a special subset.
+ In 2007, Juval Löwy in his writing [19]  and speaking [20] [21]  called for building systems in which every class was a service. Löwy realized this required the use of a technology that can support such granular use of services, and he extended  Windows Communication Foundation (WCF)  to do just that, [22] [23]  taking every class and treating it as a service while maintaining the conventional programming model of classes.
+ In 2005  Alistair Cockburn  wrote about  Hexagonal architecture (software)  which is a software design pattern that is used along with the microservices. This pattern makes the design of the microservice possible since it isolates in layers the business logic from the auxiliary services needed in order to deploy and run the microservice completely independent from others.
+ A workshop of software architects held near Venice in May 2011 used the term "microservice" to describe what the participants saw as a common architectural style that many of them had been recently exploring. [24]  In May 2012, the same group decided on "microservices" as the most appropriate name. James Lewis presented some of those ideas as a  case study  in March 2012 at 33rd Degree in Kraków in Microservices - Java, the Unix Way, [25]  as did Fred George [26]  about the same time.  Adrian Cockcroft , former director for the Cloud Systems at Netflix, [27]  described this approach as "fine-grained SOA", pioneered the style at web-scale, as did many of the others mentioned in this article - Joe Walnes, Dan North, Evan Bottcher, and Graham Tackley. [28] 
+ Microservices is a specialization of an implementation approach for  service-oriented architectures  (SOA) used to build flexible, independently deployable  software systems . [5]  The microservices approach is the first realisation of SOA that followed the introduction of  DevOps  and is becoming more popular for building  continuously deployed  systems. [29] 
+ In February 2020, the Cloud Microservices Market Research Report predicted that the global microservice architecture market size will increase at a  CAGR  of 21.37% from 2019 to 2026 and reach $3.1 billion by 2026. [30] 
+ 
+ Service granularity [ edit ] 
+ A key step in defining a microservice architecture is figuring out how big an individual microservice has to be. There is no consensus or litmus test for this, as the right answer depends on the business and organizational context. [31]  For instance,  Amazon  uses a  service-oriented architecture  where service often maps 1:1 with a team of 3 to 10 engineers. [32]  Generally, the terminology goes as such: services that are dedicated to a single task, such as calling a particular backend system or making a particular type of calculation, are called  atomic services . Similarly, services that call such atomic services in order to consolidate an output, are called  composite services .
+ It is considered bad practice to make the service too small, as then the runtime overhead and the operational complexity can overwhelm the benefits of the approach. When things get too fine-grained, alternative approaches must be considered - such as packaging the function as a library, moving the function into other microservices. [5] 
+ If the  domain-driven design  is being employed in modeling the domain for which the system is being built, then a microservice could be as small as an aggregate or as large as a bounded Context. [33] 
+ In the granularity of microservices discussion, there is a spectrum, in one end there are the Anaemic Services, which do not have a large number of responsibilities, and on the other end, the Modular Monolith, which are large modules of a system.
+ 
+ Benefits [ edit ] 
+ The benefit of decomposing an application into different smaller services are numerous:
+ 
+ Modularity : This makes the application easier to understand, develop, test, and become more resilient to architecture erosion. [6]  This benefit is often argued in comparison to the complexity of monolithic architectures. [34] 
+ Scalability : Since microservices are implemented and deployed independently of each other, i.e. they run within independent processes, they can be monitored and scaled independently. [35] 
+ Integration  of heterogeneous and  legacy systems : microservices is considered a viable means for modernizing existing monolithic software application. [36] [37]   There are experience reports of several companies who have successfully replaced (parts of) their existing software with microservices or are in the process of doing so. [38]  The process for  Software modernization  of legacy applications is done using an incremental approach. [39] 
+ Distributed development: it parallelizes  development  by enabling small autonomous teams to develop,  deploy  and scale their respective services independently. [40]  It also allows the architecture of an individual service to emerge through continuous  refactoring . [41]  Microservice-based architectures facilitate  continuous integration ,  continuous delivery  and deployment. [42] 
+ Criticism and concerns [ edit ] 
+ The microservices approach is subject to criticism for a number of issues:
+ 
+ Services form information barriers. [43] 
+ Inter-service calls over a network have a higher cost in terms of network latency and message processing time than in-process  calls  within a  monolithic  service process. [2] 
+ Testing  and  deployment  are more complicated. [44] [45] 
+ Moving responsibilities between services is more difficult. [6]  It may involve communication between different teams, rewriting the functionality in another language or fitting it into a different infrastructure. [2]  However, microservices can be deployed independently from the rest of the application, while teams working on monoliths need to synchronize to deploy together. [39] 
+ Viewing the size of services as the primary structuring mechanism can lead to too many services when the alternative of internal modularization may lead to a simpler design. [46]  This requires understanding the overall architecture of the applications and interdependencies between components. [47] 
+ Two-phased commits are regarded as an anti-pattern in microservices-based architectures as this results in a tighter coupling of all the participants within the transaction. However, the lack of this technology causes awkward dances which have to be implemented by all the transaction participants in order to maintain data consistency. [48] 
+ Development and support of many services are more challenging if they are built with different tools and technologies - this is especially a problem if engineers move between projects frequently. [49] 
+ The protocol typically used with microservices (HTTP) was designed for public-facing services, and as such is unsuitable for working internal microservices that often must be impeccably reliable. [50] 
+ While not specific to microservices, the decomposition methodology often uses functional decomposition, which does not handle changes in the requirements while still adding the complexity of services. [50] 
+ The very concept of microservice is misleading since there are only services. There is no sound definition of when a service starts or stops being a microservice. [50] 
+ Data aggregation. In order to have a full view of a working system, it is required to extract data sets from the microservices repositories and aggregate them into a single schema. For example, to be able to create operational reports that are not possible using a single microservice repository. 
+ Cognitive load [ edit ] 
+ The architecture introduces additional complexity and new problems to deal with, such as  network latency ,  message format  design, [51]   Backup /Availability/Consistency (BAC), [52]   load balancing  and  fault tolerance . [45]  All of these problems have to be addressed at scale.
+The complexity of a  monolithic application  does not disappear if it is re-implemented as a set of microservices. Some of the complexity gets translated into operational complexity. [53]  Other places where the complexity manifests itself are increased network traffic and resulting in slower performance. Also, an application made up of any number of microservices has a larger number of interface points to access its respective  ecosystem , which increases the architectural complexity. [54]  Various organizing principles (such as  HATEOAS , interface and data model documentation captured via  Swagger , etc.) have been applied to reduce the impact of such additional complexity.
+ 
+ Technologies [ edit ] 
+ Computer microservices can be implemented in different programming languages and might use different infrastructures. Therefore, the most important technology choices are the way microservices communicate with each other (synchronous, asynchronous, UI integration) and the protocols used for the communication (RESTful HTTP, messaging,  GraphQL  ...). In a traditional system, most technology choices like the programming language impact the whole system. Therefore, the approach to choosing technologies is quite different. [55] 
+ The  Eclipse Foundation  has published a specification for developing microservices, Eclipse MicroProfile. [56] [57] 
+ 
+ Service mesh [ edit ] 
+ See also:  Service mesh 
+ In a service mesh, each service instance is paired with an instance of a reverse proxy server, called a service proxy, sidecar proxy, or sidecar. The service instance and sidecar proxy share a container, and the containers are managed by a container orchestration tool such as  Kubernetes ,  Nomad ,  Docker Swarm , or  DC/OS .
+The service proxies are responsible for communication with other service instances and can support capabilities such as service (instance) discovery, load balancing, authentication and authorization, secure communications, and others.
+ In a service mesh, the service instances and their sidecar proxies are said to make up the data plane, which includes not only data management but also request processing and response. The service mesh also includes a control plane for managing the interaction between services, mediated by their sidecar proxies. [ citation needed ] 
+ 
+ A comparison of platforms [ edit ] 
+ Implementing a microservice architecture is very difficult. There are many concerns (see table below) that any microservice architecture needs to address.  Netflix  developed a microservice framework to support their internal applications, and then open-sourced [58]  many portions of that framework. Many of these tools have been popularized via the  Spring Framework  – they have been re-implemented as Spring-based tools under the umbrella of the Spring Cloud [59]  project. The table below shows a comparison of an implementing feature from the  Kubernetes  ecosystem with an equivalent from the Spring Cloud world. [60]  One noteworthy aspect of the Spring Cloud ecosystem is that they are all Java-based technologies, whereas Kubernetes is a polyglot runtime platform.
+ 
+ 
+ 
+ Microservices concern
+ 
+ Spring Cloud & Netflix OSS
+ 
+ Kubernetes
+ 
+ 
+ Configuration management: configuration for a microservice application needs to be externalized from the code and be retrievable via a simple service call.
+ 
+ Spring Config Server, Netflix Archaius both support a Git-repository—based location for configuration. Archaius supports data typing of configuration.
+ 
+ Kubernetes ConfigMaps exposes the configuration stored in etcd via services. Kubernetes Secrets supports the service-based secure deployment and usage of sensitive configuration information (such as passwords, certificates, etc.).
+ 
+ 
+ Service discovery : maintain a list of service instances that are available for work within a microservice domain.
+ 
+ Spring Cloud Eureka allows clients to register to it, maintains a heartbeat with registered clients, and maps service names to hostnames for clients that lookup services by service name.
+ 
+ Kubernetes Services provide deployment-time registration of instances of services that are internally available within the cluster. Ingress is a mechanism whereby a service can be exposed to clients outside the cluster.
+ 
+ 
+ Load balancing: The key to scaling a distributed system is being able to run more than one instance of a component. Load has to be then distributed across those instances via a load balancer.
+ 
+ Spring Cloud Ribbon provides the ability for service clients to load balance across instances of the service.
+ 
+ Kubernetes Service provides the ability for the service to be load-balanced across service instances. This is not the equivalent of what Ribbon provides.
+ 
+ 
+ API gateway: The granularity of APIs provided by microservices is often different than what a service client needs. API Gateways implement facades and provide additional services like proxying, and protocol translation, and other management functions.
+ 
+ Spring Cloud Zuul provides configuration-based API facades
+ 
+ Kubernetes Service and Ingress resources, Istio, Ambassador are solutions that provide both north–south (traffic into and out of data center) as well as east–west (traffic across data centers or clouds or regions) API gateway functions. Zuul can also be implemented along with Kubernetes, providing configuration at individual service level.
+ 
+ 
+ Security concerns: Many security concerns are pushed to the API gateway implementation. With distributed microservice applications, it makes sense to not reinvent the security wheel and allow for policy definition and implementation in components that are shared by all services.
+ 
+ Spring Cloud Security addresses many security concerns through Spring Cloud Zuul
+ 
+ The Kubernetes ecosystem provides service meshes like Istio, which are capable of providing security through their API gateway mechanisms.
+ 
+ 
+ Centralized logging: It is important to have a centralized log gathering and analysis infrastructure to manage a plethora of services – many of which are operating in a distributed fashion.
+ 
+ ELK Stack ( Elasticsearch , LogStash,  Kibana )
+ 
+ EFK Stack ( Elasticsearch ,  Fluentd ,  Kibana )
+ 
+ 
+ Centralized metrics: A centralized area where the health and performance of the individual services and overall system can be monitored is essential to proper operations.
+ 
+ Spring Spectator & Atlas
+ 
+ Heapster, Prometheus, &  Grafana 
+ 
+ 
+ Distributed tracing: Per-process logging and metric monitoring have their place, but neither can reconstruct the complex paths that transactions take as they propagate across a distributed system. Distributed tracing is an essential tool for a microservices platform.
+ 
+ Spring Cloud Sleuth
+ 
+ Hawkular,  Jaeger 
+ 
+ 
+ Resilience and fault tolerance: Distributed systems must be capable of auto-routing around failures, and be capable of routing requests to the service instance that will provide an optimum response.
+ 
+ Spring Hystrix, Turbine, & Ribbon
+ 
+ Health check,  service meshes  (example: Istio) [61] 
+ 
+ 
+ Autoscaling and self-healing: Distributed systems respond to higher load by scaling horizontally: the platform must detect and auto-respond to such conditions. Furthermore, the system needs to detect failures and attempt auto-restarts without operator input.
+ 
+ -
+ 
+ Health check, self-healing, and auto-scaling
+ 
+ 
+ Packaging, deployment, and scheduling: Large-scale systems require robust package management, and deployment systems to manage rolling or blue-green deployments, and rollbacks if necessary. A scheduler helps determine which particular execution node a new set of services can be deployed to based on current conditions.
+ 
+ Spring Boot, Apache Maven. The Spring Cloud system does not have a true scheduler.
+ 
+ Docker, Rkt, Kubernetes Scheduler & Deployment, Helm [62] 
+ 
+ 
+ Job management: scheduled computations disconnected from any individual user requests.
+ 
+ Spring Batch
+ 
+ Kubernetes Jobs and Scheduled Jobs
+ 
+ 
+ Singleton application: limit a specific service to run as the only instance of that service within the entire system.
+ 
+ Spring Cloud Cluster
+ 
+ Kubernetes Pods
+ 
+ See also [ edit ] 
+ 
+ Conway's law 
+ Cross-cutting concern 
+ Data mesh , a domain-oriented data architecture 
+ DevOps 
+ Fallacies of distributed computing 
+ GraphQL 
+ gRPC 
+ Representational state transfer  (REST) 
+ Service-oriented architecture  (SOA) 
+ Software modernization 
+ Unix philosophy 
+ Self-contained system (software) 
+ Serverless computing 
+ Web-oriented architecture  (WOA) 
+ 
+ References [ edit ] 
+ 
+ 
+ ^   "Microservice architectures: more than the sum of their parts?" .  IONOS Digitalguide . Retrieved  2022-03-29 . 
+ 
+ ^  a   b   c   d   Martin Fowler.  "Microservices" .  Archived  from the original on 14 February 2018. 
+ 
+ ^   Newman, Sam (2015-02-20).  Building Microservices . O'Reilly Media.  ISBN   978-1491950357 . 
+ 
+ ^   Wolff, Eberhard (2016-10-12).  Microservices: Flexible Software Architectures .  ISBN   978-0134602417 . 
+ 
+ ^  a   b   c   Pautasso, Cesare (2017). "Microservices in Practice, Part 1: Reality Check and Service Design".  IEEE Software .  34  (1): 91–98.  doi : 10.1109/MS.2017.24 .  S2CID   5635705 . 
+ 
+ ^  a   b   c   d   Chen, Lianping (2018).  Microservices: Architecting for Continuous Delivery and DevOps .  The IEEE International Conference on Software Architecture (ICSA 2018) . IEEE. 
+ 
+ ^  a   b   Nadareishvili, I., Mitra, R., McLarty, M., Amundsen, M., Microservice Architecture: Aligning Principles, Practices, and Culture, O'Reilly 2016 
+ 
+ ^   "Backends For Frontends Pattern" .  Microsoft Azure Cloud Design Patterns . Microsoft. 
+ 
+ ^   Lucas Krause.  Microservices: Patterns and Applications .  ASIN   B00VJ3NP4A . 
+ 
+ ^   Designing microservices: Continuous integration   Microsoft  Retrieved 9 January 2018 
+ 
+ ^   Josuttis, N. (2007). SOA in Practice. Sebastopol, CA, USA: O'Reilly.  ISBN   978-0-596-52955-0 . 
+ 
+ ^   Martin Fowler .  "Microservice Prerequisites" . 
+ 
+ ^   Richardson, Chris (November 2018). "1.4.1 Scale cube and microservices".  Microservice Patterns . Manning Publications.  ISBN   9781617294549 . 
+ 
+ ^   Mendonca, Nabor C.; Jamshidi, Pooyan; Garlan, David; Pahl, Claus (2019-10-16). "Developing Self-Adaptive Microservice Systems: Challenges and Directions".  IEEE Software .  38  (2): 70–79.  arXiv : 1910.07660 .  doi : 10.1109/MS.2019.2955937 .  S2CID   204744007 . 
+ 
+ ^   "That Tech Show: The Grandfather of Microservices, Fred George" . 
+ 
+ ^   Rodgers, Peter.  "Service-Oriented Development on NetKernel- Patterns, Processes & Products to Reduce System Complexity Web Services Edge 2005 East: CS-3" .  CloudComputingExpo 2005 . SYS-CON TV. Archived from  the original  on 20 May 2018 . Retrieved  3 July  2017 . 
+ 
+ ^   Rodgers, Peter.  "Service-Oriented Development on NetKernel- Patterns, Processes & Products to Reduce System Complexity" .  CloudComputingExpo . SYS-CON Media. Archived from  the original  on 20 May 2018 . Retrieved  19 August  2015 . 
+ 
+ ^   Russell, Perry; Rodgers, Peter; Sellman, Royston (2004).  "Architecture and Design of an XML Application Platform" .  HP Technical Reports . p. 62 . Retrieved  20 August  2015 . 
+ 
+ ^   Löwy, Juval (2007).  Programming WCF Services, 1st ed . O’Reilly Media. pp. 543–553.  ISBN   978-0-596-52699-3 . 
+ 
+ ^   Juval Löwy  " Every Class a WCF Service ". (Channel9, ARCast.TV, October 2007). 
+ 
+ ^   Juval Löwy  " Every Class As a Service " (Microsoft TechEd Conference, May 2009), SOA206. Archived from the  original  on 2010. 
+ 
+ ^   Löwy, Juval (2007).  Programming WCF Services, 1st ed . O’Reilly Media. pp. 48–51.  ISBN   978-0-596-52699-3 . 
+ 
+ ^   Löwy, Juval (2010).  Programming WCF Services, 3rd ed . O’Reilly Media. pp. 74–75.  ISBN   978-0-596-80548-7 . 
+ 
+ ^   Dragoni, Nicola; Giallorenzo, Saverio; Lafuente, Alberto Lluch; Mazzara, Manuel; Montesi, Fabrizio; Mustafin, Ruslan; Safina, Larisa (2017). "Microservices: yesterday, today, and tomorrow".  Present and Ulterior Software Engineering : 195–216.  arXiv : 1606.04036 .  doi : 10.1007/978-3-319-67425-4_12 .  ISBN   978-3-319-67424-7 .  S2CID   14612986 . 
+ 
+ ^   James Lewis.  "Micro services - Java, the Unix Way" . 
+ 
+ ^   Fred George (2013-03-20).  "MicroService Architecture: A Personal Journey of Discovery" . 
+ 
+ ^   Farrow, Rik (2012).  "Netflix heads into the clouds"   (PDF) . 
+ 
+ ^   
+ James Lewis and Martin Fowler.  "Microservices" . 
+ 
+ ^   "Continuous Deployment: Strategies" .  javacodegeeks.com . 10 December 2014 . Retrieved  28 December  2016 . 
+ 
+ ^   Research, Verified Market.  "Cloud Microservices Market 2020 Trends, Market Share, Industry Size, Opportunities, Analysis and Forecast by 2026 – Instant Tech Market News" . Retrieved  2020-02-18 . 
+ 
+ ^   O. Zimmermann, Domain-Specific Service Decomposition with Microservice API Patterns, Microservices 2019,  https://www.conf-micro.services/2019/slides//keynotes/Zimmerman.pdf 
+ 
+ ^   "Amazon SOA mandate" . 13 October 2011. 
+ 
+ ^   Vaughn, Vernon (2016).  Domain-Driven Design Distilled . Addison-Wesley Professional.  ISBN   978-0-13-443442-1 . 
+ 
+ ^   Yousif, Mazin (2016). "Microservices".  IEEE Cloud Computing .  3  (5): 4–5.  doi : 10.1109/MCC.2016.101 . 
+ 
+ ^   
+ Dragoni, Nicola; Lanese, Ivan; Larsen, Stephan Thordal; Mazzara, Manuel; Mustafin, Ruslan; Safina, Larisa (2017).  "Microservices: How to make your application scale"   (PDF) .  International Andrei Ershov Memorial Conference on Perspectives of System Informatics . Lecture Notes in Computer Science.  10742 : 95–104.  arXiv : 1702.07149 .  Bibcode : 2017arXiv170207149D .  doi : 10.1007/978-3-319-74313-4_8 .  ISBN   978-3-319-74312-7 .  S2CID   1643730 . 
+ 
+ ^   
+ Newman, Sam (2015).  Building Microservices . O'Reilly.  ISBN   978-1491950357 . 
+ 
+ ^   
+ Wolff, Eberhard (2016).  Microservices: Flexible Software Architecture . Addison Wesley.  ISBN   978-0134602417 . 
+ 
+ ^   
+ Knoche, Holger; Hasselbring, Wilhelm (2019).  "Drivers and Barriers for Microservice Adoption – A Survey among Professionals in Germany" .  Enterprise Modelling and Information Systems Architectures .  14 : 1:1–35–1:1–35.  doi : 10.18417/emisa.14.1 . 
+ 
+ ^  a   b   Taibi, Davide; Lenarduzzi, Valentina; Pahl, Claus; Janes, Andrea (2017).  "Microservices in agile software development: a workshop-based study into issues, advantages, and disadvantages" .  Proceedings of the XP2017 Scientific Workshops .  doi : 10.1145/3120459.3120483 .  S2CID   28134110 . 
+ 
+ ^   Richardson, Chris.  "Microservice architecture pattern" .  microservices.io . Retrieved  2017-03-19 . 
+ 
+ ^   Chen, Lianping; Ali Babar, Muhammad (2014). "Towards an Evidence-Based Understanding of Emergence of Architecture through Continuous Refactoring in Agile Software Development".  Proceedings Working IEEE/IFIP Conference on Software Architecture 2014 WICSA 2014 .  The 11th Working IEEE/IFIP Conference on Software Architecture(WICSA 2014) . IEEE.  doi : 10.1109/WICSA.2014.45 . 
+ 
+ ^   Balalaie, Armin; Heydarnoori, Abbas; Jamshidi, Pooyan (May 2016).  "Microservices Architecture Enables DevOps: Migration to a Cloud-Native Architecture"   (PDF) .  IEEE Software .  33  (3): 42–52.  doi : 10.1109/ms.2016.64 .  hdl : 10044/1/40557 .  ISSN   0740-7459 .  S2CID   18802650 . 
+ 
+ ^   Stenberg, Jan (11 August 2014).  "Experiences from Failing with Microservices" . 
+ 
+ ^   Calandra, Mariano (7 April 2021).  "Why unit testing is not enough when it comes to microservices" . 
+ 
+ ^  a   b   "Developing Microservices for PaaS with Spring and Cloud Foundry" . 
+ 
+ ^   Tilkov, Stefan (17 November 2014).  "How small should your microservice be?" .  Innoq . Retrieved  4 January  2017 . 
+ 
+ ^   Lanza, Michele; Ducasse, Stéphane (2002).  "Understanding Software Evolution using a Combination of Software Visualization and Software Metrics"   (PDF) .  In Proceedings of LMO 2002 (Langages et Modèles à Objets) : 135–149. 
+ 
+ ^   Richardson, Chris (November 2018).  Microservice Patterns . Chapter 4. Managing transactions with sagas: Manning Publications.  ISBN   978-1-61729454-9 . {{ cite book }} :  CS1 maint: location ( link ) 
+ 
+ ^   "- YouTube" .  YouTube . 
+ 
+ ^  a   b   c   Löwy, Juval (2019).  Righting Software 1st ed . Addison-Wesley Professional. pp. 73–75.  ISBN   978-0136524038 . 
+ 
+ ^   Pautasso, Cesare (2017). "Microservices in Practice, Part 2: Service Integration and Sustainability".  IEEE Software .  34  (2): 97–104.  doi : 10.1109/MS.2017.56 .  S2CID   30256045 . 
+ 
+ ^   Pautasso, Cesare (2018). "Consistent Disaster Recovery for Microservices: the BAC Theorem".  IEEE Cloud Computing .  5  (1): 49–59.  doi : 10.1109/MCC.2018.011791714 .  S2CID   4560021 . 
+ 
+ ^   Fowler, Martin .  "Microservice Trade-Offs" . 
+ 
+ ^   "BRASS Building Resource Adaptive Software Systems". U.S. Government. DARPA. April 7, 2015.  "Access to system components and the interfaces between clients and their applications, however, are mediated via a number of often unrelated mechanisms, including informally documented  application programming interfaces  (APIs), idiosyncratic foreign function interfaces, complex ill-understood model definitions, or  ad hoc  data formats. These mechanisms usually provide only partial and incomplete understanding of the semantics of the components themselves. In the presence of such complexity, it is not surprising that applications typically bake-in many assumptions about the expected behavior of the ecosystem they interact with". 
+ 
+ ^   Wolff, Eberhard (2018-04-15).  Microservices - A Practical Guide .  ISBN   978-1717075901 . 
+ 
+ ^   Swart, Stephanie (14 December 2016).  "Eclipse MicroProfile" .  projects.eclipse.org . 
+ 
+ ^   "MicroProfile" .  MicroProfile . Retrieved  2021-04-11 . {{ cite web }} :  CS1 maint: url-status ( link ) 
+ 
+ ^   Netflix OSS , Git Hub 
+ 
+ ^   Cloud , Spring 
+ 
+ ^   "Spring Cloud for Microservices Compared to Kubernetes" ,  Developers , Red hat, 2016-12-09 
+ 
+ ^   Managing microservices with the Istio service mesh , Kubernetes, May 2017 
+ 
+ ^   The Kubernetes Package Manager , Helm 
+ 
+ 
+ Further reading [ edit ] 
+ Special theme issue on microservices, IEEE Software 35(3), May/June 2018,  https://ieeexplore.ieee.org/xpl/tocresult.jsp?isnumber=8354413 
+ I. Nadareishvili et al.,  Microservices Architecture – Aligning Principles, Practices and Culture , O'Reilly, 2016,    ISBN   978-1-491-95979-4 
+ S. Newman, Building Microservices – Designing Fine-Grained Systems, O'Reilly, 2015  ISBN   978-1491950357 
+ Wijesuriya, Viraj Brian (2016-08-29)  Microservice Architecture, Lecture Notes  - University of Colombo School of Computing, Sri Lanka 
+ Christudas Binildas (June 27, 2019). Practical Microservices Architectural Patterns: Event-Based Java Microservices with Spring Boot and Spring Cloud. Apress.  ISBN   978-1484245002 . 
+  
+NewPP limit report
+Parsed by mw2269
+Cached time: 20221004152303
+Cache expiry: 1814400
+Reduced expiry: false
+Complications: [vary‐revision‐sha1, show‐toc]
+CPU time usage: 0.554 seconds
+Real time usage: 0.695 seconds
+Preprocessor visited node count: 3959/1000000
+Post‐expand include size: 98913/2097152 bytes
+Template argument size: 3597/2097152 bytes
+Highest expansion depth: 16/100
+Expensive parser function count: 3/500
+Unstrip recursion depth: 1/20
+Unstrip post‐expand size: 178648/5000000 bytes
+Lua time usage: 0.324/10.000 seconds
+Lua memory usage: 7764672/52428800 bytes
+Number of Wikibase entities loaded: 0/400
+ 
+ 
+Transclusion expansion time report (%,ms,calls,template)
+100.00%  622.780      1 -total
+ 61.95%  385.783      1 Template:Reflist
+ 25.11%  156.379     23 Template:Cite_web
+ 11.23%   69.926      1 Template:Short_description
+  9.65%   60.095      1 Template:Unreliable_sources
+  9.12%   56.795     11 Template:Cite_journal
+  8.72%   54.288      1 Template:Ambox
+  8.07%   50.229     13 Template:Cite_book
+  6.44%   40.138      2 Template:ISBN
+  5.63%   35.050      2 Template:Pagetype
+ 
+  Saved in parser cache with key enwiki:pcache:idhash:43509183-0!canonical and timestamp 20221004152303 and revision id 1113011101.
+  
+ 
+ Retrieved from " https://en.wikipedia.org/w/index.php?title=Microservices&oldid=1113011101 " 
+ Categories :  Architectural pattern (computer science) Service-oriented (business computing) Hidden categories:  CS1 maint: location CS1 maint: url-status Articles with short description Short description is different from Wikidata Articles lacking reliable references from October 2018 All articles lacking reliable references All articles with unsourced statements Articles with unsourced statements from July 2022 
+ 
+ 
+ 
+ Navigation menu 
+ 
+ 
+ 
+ Personal tools 
+ 
+ 
+ Not logged in Talk Contributions Create account Log in 
+ 
+ 
+ 
+ 
+ 
+ Namespaces 
+ 
+ 
+ Article Talk 
+ 
+ 
+ 
+ 
+ 
+ English 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Views 
+ 
+ 
+ Read Edit View history 
+ 
+ 
+ 
+ 
+ 
+ More 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Search 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Navigation 
+ 
+ 
+ Main page Contents Current events Random article About Wikipedia Contact us Donate 
+ 
+ 
+ 
+ 
+ Contribute 
+ 
+ 
+ Help Learn to edit Community portal Recent changes Upload file 
+ 
+ 
+ 
+ 
+ Tools 
+ 
+ 
+ What links here Related changes Upload file Special pages Permanent link Page information Cite this page Wikidata item 
+ 
+ 
+ 
+ 
+ Print/export 
+ 
+ 
+ Download as PDF Printable version 
+ 
+ 
+ 
+ 
+ Languages 
+ 
+ 
+ বাংলা Čeština Deutsch Eesti Español Euskara فارسی Français 한국어 日本語 Norsk bokmål Polski Русский Simple English Српски / srpski Suomi Українська Tiếng Việt 中文 
+ Edit links 
+ 
+ 
+ 
+ 
+ 
+ 
+  This page was last edited on 29 September 2022, at 07:36  (UTC) . 
+ Text is available under the  Creative Commons Attribution-ShareAlike License 3.0 ;
+additional terms may apply.  By using this site, you agree to the  Terms of Use  and  Privacy Policy . Wikipedia® is a registered trademark of the  Wikimedia Foundation, Inc. , a non-profit organization. 
+ 
+ 
+ Privacy policy 
+ About Wikipedia 
+ Disclaimers 
+ Contact Wikipedia 
+ Mobile view 
+ Developers 
+ Statistics 
+ Cookie statement 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

@@ -1,0 +1,1242 @@
+
+ 
+ 
+ 
+ 
+ 
+ 
+  Google Tag Manager (noscript)  
+ 
+  End Google Tag Manager (noscript)  
+ 
+ BT 
+ 
+ 
+ 
+ 	#######		SITE START	#########	  
+ 
+ 
+ 
+ 
+ 
+ QCon London (March 27-29, 2023): Adopt the right emerging trends to solve your complex engineering challenges.  
+ 
+                            Register Now. 
+                         
+ 
+ 
+ 
+ Close
+                     
+ 
+ 
+ 
+ 
+ 
+ Toggle Navigation  
+ 
+ 
+ 
+ 
+ 
+                        Facilitating the Spread of Knowledge and Innovation in Professional Software Development
+                     
+ 
+ English edition  
+ 
+   
+ 
+ 
+ English edition 
+ Chinese edition 
+ Japanese edition 
+ French edition 
+ 
+ 
+   
+ 
+ 
+ 
+                        Write for InfoQ
+                     
+ 
+ 
+ 
+ 
+ 
+ Search 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Sign Up / Login 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Email 
+ 
+ 
+ 
+ Password 
+ 
+ 
+ 
+ 
+ 
+ Forgot password ? 
+ 
+ 
+ 
+ 
+ InfoQ Account Email 
+ 
+ 
+ 
+ 
+ 
+ Back to login 
+ 
+ 
+ 
+ 
+ Resend Activation 
+ 
+ 
+ 
+ 
+ 
+ Back to login 
+ 
+ 
+ 
+ 
+ Login with: 
+ 
+ Google 
+ Microsoft 
+ Twitter 
+ Facebook 
+ 
+ 
+ 
+ Don't have an InfoQ account? 
+ Sign Up 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+                        Logo - Back to homepage
+                     
+ 
+		
+			
+			
+			
+		2,159,737 Sep unique visitors
+	 
+ 
+ 
+ News 
+ Articles 
+ Presentations 
+ Podcasts 
+ Guides 
+ 
+ 
+ 
+ Topics 
+ 
+ 
+ Development 
+ 
+ 
+ Java 
+ Kotlin 
+ .Net 
+ C# 
+ Swift 
+ Go 
+ Rust 
+ JavaScript 
+ 
+ 
+ 
+ 
+ Featured in  Development 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Comparison of Performance of Multiple CPU Architectures 
+ 
+ Matthew Singer and Jeff Balk discuss similiarities and differences among multiple high performing CPU architectures. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ All in  development 
+ 
+ 
+ 
+ 
+ Architecture & Design 
+ 
+ 
+ Architecture 
+ Enterprise Architecture 
+ Scalability/Performance 
+ Design 
+ Case Studies 
+ Microservices 
+ Service Mesh 
+ Patterns 
+ Security 
+ 
+ 
+ 
+ 
+ Featured in  Architecture & Design 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Shopify’s Architecture to Handle the World’s Biggest Flash Sales 
+ 
+ Bart de Water walks through how Shopify works under the hood, diving into their multi-tenant architecture that allows them to prevent failures and prepare for a multi-flash sale event: Black Friday. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ All in  architecture-design 
+ 
+ 
+ 
+ 
+ AI, ML & Data Engineering 
+ 
+ 
+ Big Data 
+ Machine Learning 
+ NoSQL 
+ Database 
+ Data Analytics 
+ Streaming 
+ 
+ 
+ 
+ 
+ Featured in  AI, ML & Data Engineering 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ What You Should Know before Deploying ML in Production 
+ 
+ Francesca Lazzeri shares an overview of the most popular MLOps tools and best practices, and presents a set of tips and tricks useful before deploying a solution in production. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ All in  ai-ml-data-eng 
+ 
+ 
+ 
+ 
+ Culture & Methods 
+ 
+ 
+ Agile 
+ Diversity 
+ Leadership 
+ Lean/Kanban 
+ Personal Growth 
+ Scrum 
+ Sociocracy 
+ Software Craftmanship 
+ Team Collaboration 
+ Testing 
+ UX 
+ 
+ 
+ 
+ 
+ Featured in  Culture & Methods 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Breaking up Lyft’s Development Monolith 
+ 
+ Jake Kaufman discusses how they use request context propagation to enable developers to safely share their staging environment. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ All in  culture-methods 
+ 
+ 
+ 
+ 
+ DevOps 
+ 
+ 
+ Infrastructure 
+ Continuous Delivery 
+ Automation 
+ Containers 
+ Cloud 
+ Observability 
+ 
+ 
+ 
+ 
+ Featured in  DevOps 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Building an Effective Incident Management Process 
+ 
+ A good incident management framework can help organizations manage the chaos of an outage more effectively leading to shorter incident durations and tighter feedback loops. This article introduces the components necessary for a healthy incident management process. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ All in  devops 
+ 
+ 
+ 
+ 
+ Events New 
+ 
+ 
+ 
+ 
+ Helpful links 
+ 
+ 
+ 
+                About InfoQ
+             
+ 
+ 
+ 
+                InfoQ Editors
+             
+ 
+ 
+ 
+                Write for InfoQ
+             
+ 
+ 
+ 
+                About C4Media
+             
+ 
+ 
+ Diversity 
+ 
+ 
+ 
+ 
+ Choose your language 
+ 
+ En 
+ 中文 
+ 日本 
+ Fr 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ QCon San Francisco 
+ Understand the emerging software trends you should pay attention to. Attend in-person on Oct 24-28, 2022. 
+ 
+ 
+ 
+ 
+ 
+ QCon Plus 
+ Make the right decisions by uncovering how senior software developers at early adopter companies are adopting emerging trends. Register Now. 
+ 
+ 
+ 
+ 
+ 
+ QCon London 
+ Adopt the right emerging trends to solve your complex engineering challenges. Register Now. 
+ 
+ 
+ 
+ 
+ 
+ The Software Architects' Newsletter 
+ Your monthly guide to all the topics, technologies and techniques that every professional needs to know about. Subscribe for free. 
+ 
+ 
+ 
+ 
+   
+ 
+ 
+ 
+ 
+ 	#######		CONTENT START	#########	  
+ 
+ 
+ 
+ 
+ 
+ 
+ InfoQ Homepage 
+ Presentations 
+ Developing Microservices for PaaS with Spring and Cloud Foundry 
+ 
+ 
+ 
+ QCon Plus (Nov 29 - Dec 9): Make the right decisions by uncovering emerging software trends  
+ 
+ 
+ Developing Microservices for PaaS with Spring and Cloud Foundry 
+ 
+ Like 
+ 
+ Bookmarks 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ View Presentation 
+ 
+ Vertical 
+ Horizontal 
+ Full 
+ 
+ 
+ 
+ Speed: 
+ 
+ 1x 
+ 1.25x 
+ 1.5x 
+ 2x 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Download 
+ 
+ 
+ MP3 
+ 
+ 
+ 
+ 
+ 
+ Slides 
+ 
+ 
+ 
+ 
+ 
+ 01:29:15 
+ 
+ 
+ 
+ 
+ 
+ 
+ Summary 
+ This session describes architectural patterns for developing microservices:Service Decomposition,API Gateways,Stateless / Shared-Nothing Apps,Configuration and Backing Service Consumption,Fault Tolerance. Along the way you learn how to leverage technologies such as Spring Boot and Reactor to develop microservices targeted at Cloud Foundry. 
+ 
+ 
+ Bio 
+ Fred Melo is Community Engineer at Pivotal. 
+Matt Stine is CloudFoundry Platform Engineer at Pivotal and DevOps/Continuous Delivery junkie. 
+ 
+ 
+ About the conference 
+ Pivotal and No Fluff Just Stuff bring you SpringOne 2GX 2014, a one-of-a-kind conference for application developers, solution architects, web operations and IT teams who develop business applications, create multi-device aware web applications, design cloud architectures, and manage high performance infrastructure. The sessions are specifically tailored for developers using the hugely popular open source Spring IO projects, Groovy & Grails, Cloud Foundry, Hadoop and Tomcat technologies. Whether you're building and running mission-critical business applications, designing the next killer cloud or big data application, SpringOne 2GX will keep you up to date with the latest enterprise open source technology. 
+ 
+ 
+ 
+ 
+ 
+ 
+ Software Development Conference, Oct 24-28 
+ I have loved QCon and I've learned so much about what is hot in the industry, what's coming up next and what are people thinking/care about? Every time I go to QCon I learn about new things that I want to take back to my team. Whether they're new technologies, new ways of working or new processes and so on. 
+ 
+ Randy Shoup VP Engineering and Chief Architect @eBay 
+ 
+ Check out QCon San Francisco 
+ 
+ 
+ 
+ 
+ Recorded at: 
+ 
+ 
+ 
+ 
+ Nov 16, 2014 
+ 
+ 
+ by 
+ 
+ 
+ 
+ 
+ 
+ Matt Stine 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Fred Melo 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+                
+                
+                    
+                This content is in the  Cloud Computing  topic
+             
+ 
+ Related Topics: 
+ 
+ 
+ Architecture & Design 
+ 
+ 
+ SpringOne 2GX 2014 
+ 
+ 
+ SpringOne 
+ 
+ 
+ Spring 
+ 
+ 
+ Java 
+ 
+ 
+ Cloud Foundry 
+ 
+ 
+ PaaS 
+ 
+ 
+ Patterns 
+ 
+ 
+ Microservices 
+ 
+ 
+ Pivotal 
+ 
+ 
+ Architecture 
+ 
+ 
+ Cloud Computing 
+ 
+ 
+ 
+ 
+ 
+ Sponsored Content 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Related Editorial 
+ 
+ 
+ 
+ 
+ 
+ Related Sponsored Content 
+ 
+ 
+ 
+ 
+ 
+ Related Sponsor 
+ 
+ 
+ 
+ 
+ Code, deploy, and scale Java your way. 
+Microsoft Azure supports your workload with abundant choices, whether you're working on a Java app, app server, or framework.  Learn more . 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Hello stranger! 
+ You need to  Register an InfoQ account  or   Login  or login to post comments. But there's so much more behind being registered. 
+ Get the most out of the InfoQ experience. 
+ 
+ 
+ 
+ 
+ 
+ Tell us what you think 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Allowed html: a,b,br,blockquote,i,li,pre,u,ul,p 
+ 
+ 
+ 
+ 
+ 
+  Email me replies to any of my messages in this thread
+                             
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Community comments 
+ 
+ 
+ Watch thread 
+ 
+ 
+ 
+ 
+ MP3 download doesn't work for me 
+ by Matthias Popp ,  
+ 
+ 
+ Re: MP3 download doesn't work for me 
+ by Roxana Bacila ,  
+ 
+ 
+ 
+ the video can not play on mac os 
+ by cccona chen ,  
+ 
+ 
+ Re: the video can not play on mac os 
+ by Charles Humble ,  
+ 
+ 
+ 
+ level of audio not constant 
+ by Borisa Zivkovic ,  
+ 
+ 
+ 
+ 
+ 
+ 
+ MP3 download doesn't work for me 
+ by
+                                         Matthias Popp ,
+                                         
+ 
+ 
+ Your message is awaiting moderation. Thank you for participating in the discussion. 
+ Download link for MP3 gives me an access denied error (although logged in via google) 
+ 
+ 
+ Like 
+ Reply 
+ 
+ 
+ Back to top 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Re: MP3 download doesn't work for me 
+ by
+                                         Roxana Bacila ,
+                                         
+ 
+ 
+ Your message is awaiting moderation. Thank you for participating in the discussion. 
+ Hi Matthias,  Thank you for pinging us about it. This is now fixed. 
+ 
+ 
+ Like 
+ Reply 
+ 
+ 
+ Back to top 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ the video can not play on mac os 
+ by
+                                         cccona chen ,
+                                         
+ 
+ 
+ Your message is awaiting moderation. Thank you for participating in the discussion. 
+ the mp3 ,slide can not be downloaded also on mac os 
+ 
+ 
+ Like 
+ Reply 
+ 
+ 
+ Back to top 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Re: the video can not play on mac os 
+ by
+                                         Charles Humble ,
+                                         
+ 
+ 
+ Your message is awaiting moderation. Thank you for participating in the discussion. 
+ I've tired this on my Mac and it seems to be fine.  Are you stuck behind a firewall maybe?  Otherwise let me know what version of OS X you are running and the browser you are using and I'll see if I can re-produce the problem. Thanks, Charles 
+ 
+ 
+ Like 
+ Reply 
+ 
+ 
+ Back to top 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ level of audio not constant 
+ by
+                                         Borisa Zivkovic ,
+                                         
+ 
+ 
+ Your message is awaiting moderation. Thank you for participating in the discussion. 
+ great presentation... for some reason level of audio is going up and down for me... on both iPad and Linux machine.. not sure if it is only me 
+ 
+ 
+ Like 
+ Reply 
+ 
+ 
+ Back to top 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  reply box  
+ 
+ Close 
+ 
+ 
+ 
+ 
+ 
+ Your Reply 
+ 
+ 
+ Quote original message 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Allowed html: a,b,br,blockquote,i,li,pre,u,ul,p 
+ 
+ 
+ 
+ 
+ 
+  Email me replies to any of my messages in this thread
+                     
+ 
+ 
+ 
+ 
+ 
+ 
+                        Cancel
+                     
+ 
+ 
+ 
+ 
+  edit comment box  
+ 
+ Close 
+ 
+ 
+ 
+ 
+ 
+ Your Reply 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Allowed html: a,b,br,blockquote,i,li,pre,u,ul,p 
+ 
+ 
+ 
+ 
+ 
+  Email me replies to any of my messages in this thread
+                     
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+                        Cancel
+                     
+ 
+ 
+ 
+ 
+  notification popup  
+ 
+ Close 
+ 
+ 
+ 
+ 
+                   OK
+                 
+ 
+ 
+ 
+ 5  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Development 
+ 
+ 
+ 
+ 
+ Comparison of Performance of Multiple CPU Architectures 
+ 
+ 
+ Accelerate Your Growth and Build Better-Connected Teams at QCon San Francisco Oct 24-28, 2022 
+ 
+ 
+ Amazon Switched Compression from Gzip to Zstd for Own Service Data 
+ 
+ 
+ 
+ 
+ 
+ 
+ Architecture & Design 
+ 
+ 
+ 
+ 
+ Shopify’s Architecture to Handle the World’s Biggest Flash Sales 
+ 
+ 
+ The InfoQ eMag: Modern Data Architectures, Pipelines, & Streams 
+ 
+ 
+ Frederic Branczyk on Continuous Profiling Leveraging eBPF 
+ 
+ 
+ 
+ 
+ 
+ 
+ Culture & Methods 
+ 
+ 
+ 
+ 
+ Breaking up Lyft’s Development Monolith 
+ 
+ 
+ VR Environments for Collaborative Software Development 
+ 
+ 
+ Reliable Continuous Testing Requires Automation 
+ 
+ 
+ 
+ 
+ 
+ 
+ AI, ML & Data Engineering 
+ 
+ 
+ 
+ 
+ Confluent Introduces Stream Governance Advanced to Safely Extend Data Streaming Power 
+ 
+ 
+ What You Should Know before Deploying ML in Production 
+ 
+ 
+ GraphQL Caching on the Edge 
+ 
+ 
+ 
+ 
+ 
+ 
+ DevOps 
+ 
+ 
+ 
+ 
+ Platform Engineering, DevOps, and Cognitive Load: a Summary of Community Discussions 
+ 
+ 
+ Google Distroless Images Achieve SLSA Level 2 
+ 
+ 
+ MIT Technology Review Insights Survey on Zero Trust in Cybersecurity 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ The InfoQ  Newsletter
+	 
+ A round-up of last week’s content on InfoQ sent out every Tuesday. Join a community of over 250,000 senior developers.
+		
+			 View an example 
+ 
+ 
+ Get a quick overview of content published on a variety of innovator and early adopter technologies 
+ Learn what you don’t know that you don’t know 
+ Stay up to date with the latest information from the topics you are interested in 
+ 
+ 
+ 
+ 
+ Enter your e-mail address 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Select your country 
+ 
+ Select a country 
+ 
+ 
+ 
+ 
+ 
+ I consent to InfoQ.com handling my data as explained in this  Privacy Notice . 
+ 
+ 
+ 
+ 
+ 
+ We protect your privacy. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ QCon Software Development Conference  
+ 
+ 
+ 
+ Real-world technical talks. No product pitches. Practical ideas to inspire you and your team. QCon San Francisco - Oct 24-28, In-person. QCon San Francisco brings together the world's most innovative senior software engineers across multiple domains to share their real-world implementation of emerging trends and practices. Uncover emerging software trends and practices to solve your complex engineering challenges, without the product pitches. Save your spot now 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Home 
+ Create account 
+ Login 
+ QCon Conferences 
+ Events 
+ Write for InfoQ 
+ InfoQ Editors 
+ About InfoQ 
+ About C4Media 
+ 
+            Media Kit
+         
+ InfoQ Developer Marketing Blog 
+ Diversity 
+ 
+ 
+ 
+ Events 
+ 
+ 
+ 
+ 
+ QCon San Francisco 
+ 
+ OCTOBER 24-28, 2022 
+ 
+ 
+ 
+ 
+ 
+ QCon Plus 
+ 
+ NOVEMBER 29 - DECEMBER 9, 2022 
+ 
+ 
+ 
+ 
+ 
+ QCon London 
+ 
+ MARCH 27-31, 2023 
+ 
+ 
+ 
+ 
+ 
+								QCon San Francisco
+							 
+ OCTOBER 2-6, 2023 
+ 
+ 
+ 
+ 
+ 
+ Follow us on  
+ 
+ Youtube 212K Followers 
+ Linkedin 18K Followers 
+ RSS 19K Readers 
+ Twitter 50k Followers 
+ Facebook 20K Likes 
+ Alexa New 
+ 
+ 
+ 
+ Stay in the know 
+ 
+ The InfoQ Podcast 
+ Engineering Culture Podcast 
+ The Software Architects' Newsletter 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+						General Feedback
+						 feedback@infoq.com 
+ 
+ 
+						Advertising
+						 sales@infoq.com 
+ 
+ 
+						Editorial
+						 editors@infoq.com 
+ 
+ 
+						Marketing
+						 marketing@infoq.com 
+ 
+ 
+ 
+ 
+ InfoQ.com and all content copyright © 2006-2022 C4Media Inc. InfoQ.com hosted at  Contegix , the best ISP we've ever worked with. 
+ Privacy Notice ,  Terms And Conditions ,  Cookie Policy 
+ 
+ 
+ 
+ 
+ 
+ 	#######		SITE END	#########	  
+ 
+ 
+ BT 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
