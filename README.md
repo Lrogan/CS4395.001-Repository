@@ -22,4 +22,4 @@ A Repository for all code assignments for Human Language Technologies
 [Jupyter Notebook](Portfolio_Assignment3/WordNet.ipynb)   |    [PDF](Portfolio_Assignment3/Portfolio_Assignment3-ajc200002.pdf)
 
 # Homework4: Web Crawler
-[Program](Homework4/WebCrawler.py)
+[Program](Homework4/WebCrawler.py) | [Write Up](Homework4/Homework4 - Write Up.docx)
