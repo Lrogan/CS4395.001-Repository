@@ -20,3 +20,6 @@ A Repository for all code assignments for Human Language Technologies
 # Portfolio Assignment 3: WordNet
 
 [Jupyter Notebook](Portfolio_Assignment3/WordNet.ipynb)   |    [PDF](Portfolio_Assignment3/Portfolio_Assignment3-ajc200002.pdf)
+
+# Homework4: Web Crawler
+[Program](Homework4/WebCrawler.py)
