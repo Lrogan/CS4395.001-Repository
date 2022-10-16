@@ -147,7 +147,7 @@ def buildKnowledgeBase():
 
 if __name__ == '__main__':
   starter_url = "https://en.wikipedia.org/wiki/Microservices"
-  # web_crawler(starter_url)
+  web_crawler(starter_url)
   importantWords()
   buildKnowledgeBase()
   
