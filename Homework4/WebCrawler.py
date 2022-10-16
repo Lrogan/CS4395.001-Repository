@@ -143,7 +143,7 @@ def buildKnowledgeBase():
   for filename in os.scandir('Homework4/SiteSents'):
     siteText = getSiteText(filename)
     sentances = sent_tokenize(siteText)
-    [s for s in sentances if ]
+    [s for s in sentances if s in sentances]
 
 if __name__ == '__main__':
   starter_url = "https://en.wikipedia.org/wiki/Microservices"
