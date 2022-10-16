@@ -23,3 +23,6 @@ A Repository for all code assignments for Human Language Technologies
 
 # Homework4: Web Crawler
 [Program](Homework4/WebCrawler.py) | [Write Up](Homework4/Homework4_Write_Up.docx)
+
+# Portfolio Assignment 4: Sentance Parsing
+[The PDF](Portfolio_Assignment4/Sentence_Parsing.pdf)
