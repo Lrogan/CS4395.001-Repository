@@ -26,3 +26,6 @@ A Repository for all code assignments for Human Language Technologies
 
 # Portfolio Assignment 4: Sentance Parsing
 [The PDF](Portfolio_Assignment4/Sentence_Parsing.pdf)
+
+# Portfolio Assignment 5: Author Attribution
+[The PDF](Portfolio_Assignment5/AuthorAttribution.pdf)    |    [Jupyter Notebook](Portfolio_Assignment5/AuthorAttribution.ipynb)    |     [Data Sheet](federalist.csv)
