@@ -1,0 +1,1144 @@
+"Microservices" - yet another new term on the crowded streets
+    of software architecture. Although our natural inclination is to
+    pass such things by with a contemptuous glance, this bit of
+    terminology describes a style of software systems that we are
+    finding more and more appealing. We've seen many projects use this
+    style in the last few years, and results so far have been
+    positive, so much so that for many of our colleagues this is
+    becoming the default style for building enterprise
+    applications. Sadly, however, there's not much information that
+    outlines what the microservice style is and how to do it. 
+ In short, the microservice architectural style  [1]  is an approach
+    to developing a single application as a suite of small services,
+    each running in its own process and communicating with lightweight
+    mechanisms, often an HTTP resource API. These services are built
+    around business capabilities and independently deployable by fully
+    automated deployment machinery. There is a bare minimum of
+    centralized management of these services, which may be written in
+    different programming languages and use different data storage
+    technologies.  
+ 
+ 
+ My  Microservices Resource
+      Guide  provides links to the best
+      articles, videos, books, and podcasts about microservices. 
+ 
+ To start explaining the microservice style it's useful to
+    compare it to the monolithic style: a monolithic application built
+    as a single unit. Enterprise Applications are often built in three main parts: a
+    client-side user interface (consisting of HTML pages and
+    javascript running in a browser on the user's machine) a database
+    (consisting of many tables inserted into a common, and usually
+    relational, database management system), and a server-side
+    application. The server-side application will handle HTTP
+    requests, execute domain logic, retrieve and update data from the
+    database, and select and populate HTML views to be sent to the
+    browser. This server-side application is a  monolith  - a single
+    logical executable [2] . Any changes to the
+    system involve building and deploying a new version of the
+    server-side application.  
+ Such a monolithic server is a natural way to approach building
+    such a system. All your logic for handling a request runs in a
+    single process, allowing you to use the basic features of your
+    language to divide up the application into classes, functions, and
+    namespaces. With some care, you can run and test the application
+    on a developer's laptop, and use a deployment pipeline to ensure
+    that changes are properly tested and deployed into production. You
+    can horizontally scale the monolith by running many instances
+    behind a load-balancer. 
+ Monolithic applications can be successful, but increasingly
+    people are feeling frustrations with them - especially as more
+    applications are being deployed to the cloud . Change cycles are
+    tied together - a change made to a small part of the application,
+    requires the entire monolith to be rebuilt and deployed. Over time
+    it's often hard to keep a good modular structure, making it harder
+    to keep changes that ought to only affect one module within that
+    module. Scaling requires scaling of the entire application rather
+    than parts of it that require greater resource.  
+ 
+ Figure 1: Monoliths
+    and Microservices 
+ 
+ 
+ These frustrations have led to the microservice architectural
+    style: building applications as suites of services. As well as the
+    fact that services are independently deployable and scalable, each
+    service also provides a firm module boundary, even allowing for
+    different services to be written in different programming
+    languages. They can also be managed by different teams . 
+ We do not claim that the microservice style is novel
+    or innovative, its roots go back at least to the design principles
+    of Unix. But we do think that not enough people consider a
+    microservice architecture and that many software developments
+    would be better off if they used it. 
+ 
+ Characteristics of a Microservice Architecture 
+ We cannot say there is a formal definition of the
+      microservices architectural style, but we can attempt to
+      describe what we see as common characteristics for architectures
+      that fit the label. As with any definition that outlines common
+      characteristics, not all microservice architectures have all the
+      characteristics, but we do expect that most microservice
+      architectures exhibit most characteristics. While we authors
+      have been active members of this rather loose community, our
+      intention is to attempt a description of what we see in our own
+      work and in similar efforts by teams we know of. In particular
+      we are not laying down some definition to conform to.  
+ 
+ Componentization via Services 
+ For as long as we've been involved in the software
+        industry, there's been a desire to build systems by plugging
+        together components, much in the way we see things are made in
+        the physical world. During the last couple of decades we've
+        seen considerable progress with large compendiums of common
+        libraries that are part of most language platforms. 
+ When talking about components we run into the difficult
+        definition of what makes a component.  Our definition  is that a
+         component  is a unit of software that is
+        independently replaceable and upgradeable. 
+ Microservice architectures will use libraries, but their
+        primary way of componentizing their own software is by
+        breaking down into services. We define  libraries 
+        as components that are linked into a program and called using
+        in-memory function calls, while  services  are
+        out-of-process components who communicate with a mechanism such
+        as a web service request, or remote procedure call. (This is a
+        different concept to that of a service object in many OO
+        programs  [3] .) 
+ One main reason for using services as components (rather
+        than libraries) is that services are independently deployable.
+        If you have an application  [4]  that consists of a multiple
+        libraries in a single process, a change to any single component
+        results in having to redeploy the entire application. But if
+        that application is decomposed into multiple services, you can
+        expect many single service changes to only require
+        that service to be redeployed. That's not an absolute, some
+        changes will change service interfaces resulting in some
+        coordination, but the aim of a good microservice architecture is
+        to minimize these through cohesive service boundaries and
+        evolution mechanisms in the service contracts. 
+ Another consequence of using services as components is a
+        more explicit component interface. Most languages do not have
+        a good mechanism for defining an explicit  Published Interface . Often it's only documentation and
+        discipline that prevents clients breaking a component's
+        encapsulation, leading to overly-tight coupling between
+        components. Services make it easier to avoid this by using
+        explicit remote call mechanisms. 
+ Using services like this does have downsides. Remote calls
+        are more expensive than in-process calls, and thus remote APIs
+        need to be coarser-grained, which is often more awkward to
+        use. If you need to change the allocation of responsibilities
+        between components, such movements of behavior are harder to
+        do when you're crossing process boundaries. 
+ At a first approximation, we can observe that services map
+        to runtime processes, but that is only a first approximation.
+        A service may consist of multiple processes that will always
+        be developed and deployed together, such as an application
+        process and a database that's only used by that service.  
+ 
+ 
+ Organized around Business Capabilities 
+ When looking to split a large application into parts,
+        often management focuses on the technology layer, leading to
+        UI teams, server-side logic teams, and database teams. When
+        teams are separated along these lines, even simple changes can
+        lead to a cross-team project taking time and budgetary approval. A smart team will
+        optimise around this and plump for the lesser of two evils -
+        just force the logic into whichever application they have
+        access to. Logic everywhere in other words. This is an example
+        of Conway's Law [5]  in action. 
+ 
+ Any organization that designs a system (defined broadly)
+          will produce a design whose structure is a copy of the
+          organization's communication structure. 
+ -- Melvin Conway, 1968 
+ 
+ 
+ Figure 2: Conway's
+        Law in action 
+ 
+ 
+ The microservice approach to division is different,
+        splitting up into services organized around
+         business capability . Such services take a
+        broad-stack implementation of software for that business area,
+        including user-interface, persistant storage, and any external
+        collaborations. Consequently the teams are cross-functional,
+        including the full range of skills required for the
+        development: user-experience, database, and project
+        management.  
+ 
+ Figure 3: Service
+        boundaries reinforced by team boundaries 
+ 
+ 
+ 
+ How big is a microservice? 
+ Although “microservice” has become a popular name for this
+          architectural style, its name does lead to an unfortunate
+          focus on the size of service, and arguments about what
+          constitutes “micro”. In our conversations with microservice
+          practitioners, we see a range of sizes of services. The
+          largest sizes reported follow Amazon's notion of the Two
+          Pizza Team (i.e. the whole team can be fed by two pizzas),
+          meaning no more than a dozen people. On the smaller size
+          scale we've seen setups where a team of half-a-dozen would
+          support half-a-dozen services. 
+ This leads to the question of whether there are
+          sufficiently large differences within this size range that
+          the service-per-dozen-people and service-per-person sizes
+          shouldn't be lumped under one microservices label. At the
+          moment we think it's better to group them together, but
+          it's certainly possible that we'll change our mind as we
+          explore this style further. 
+ 
+ One company organised in this way is  www.comparethemarket.com .
+        Cross functional teams are responsible for building and operating
+        each product and each product is split out into a number of
+        individual services communicating via a message bus. 
+ Large monolithic applications can always be modularized
+        around business capabilities too, although that's not the
+        common case. Certainly we would urge a large team building a
+        monolithic application to divide itself along business lines.
+        The main issue we have seen here, is that they tend to be
+        organised around  too many  contexts. If the monolith
+        spans many of these modular boundaries it can be difficult for individual
+        members of a team to fit them into their short-term
+        memory. Additionally we see that the modular
+        lines require a great deal of discipline to enforce. The
+        necessarily more explicit separation required by service
+        components makes it easier to keep the team boundaries clear. 
+ 
+ 
+ Products not Projects 
+ Most application development efforts that we see use a
+        project model: where the aim is to deliver some piece of
+        software which is then considered to be completed. On
+        completion the software is handed over to a
+        maintenance organization and the project team that built it is
+        disbanded. 
+ Microservice proponents tend to avoid this model,
+        preferring instead the notion that a team should own a product
+        over its full lifetime. A common inspiration for this is
+        Amazon's notion of  "you build, you
+        run it"  where a development team takes full responsibility
+        for the software in production. This brings developers into
+        day-to-day contact with how their software behaves in
+        production and increases contact with their users, as they
+        have to take on at least some of the support burden. 
+ The product mentality, ties in with the linkage to business
+        capabilities. Rather than looking at the software as a set of
+        functionality to be completed, there is an on-going
+        relationship where the question is how can software assist its
+        users to enhance the business capability. 
+ There's no reason why this same approach can't be taken
+        with monolithic applications, but the smaller granularity of
+        services can make it easier to create the personal
+        relationships between service developers and their users. 
+ 
+ 
+ Smart endpoints and dumb pipes 
+ When building communication structures between different
+          processes, we've seen many products and approaches that stress
+          putting significant smarts into the communication mechanism
+          itself. A good example of this is the Enterprise Service Bus
+          (ESB), where ESB products often include sophisticated
+          facilities for message routing, choreography, transformation,
+          and applying business rules. 
+ 
+ Microservices and SOA 
+ When we've talked about microservices a common question is
+            whether this is just Service Oriented Architecture (SOA) that we
+            saw a decade ago. There is merit to this point, because the
+            microservice style is very similar to what some advocates of SOA
+            have been in favor of. The problem, however, is that SOA means  too
+            many different things , and that most of the time that we come
+            across something called "SOA" it's significantly different to the
+            style we're describing here, usually due to a focus on ESBs used
+            to integrate monolithic applications. 
+ In particular we have seen so many botched implementations of
+            service orientation - from the tendency to hide complexity away
+            in ESB's  [6] , to failed multi-year initiatives
+            that cost millions and deliver no value, to centralised
+            governance models that actively inhibit change, that it is
+            sometimes difficult to see past these problems. 
+ Certainly, many of the techniques in use in the microservice
+            community have grown from the experiences of developers
+            integrating services in large organisations. The  Tolerant Reader  pattern is an example of this. Efforts
+            to use the web have contributed, using simple protocols is
+            another approach derived from these experiences - a reaction
+            away from central standards that have reached a complexity that
+            is,  frankly,
+            breathtaking . (Any time you need an ontology to manage your
+            ontologies you know you are in deep trouble.) 
+ This common manifestation of SOA has led some microservice
+            advocates to reject the SOA label entirely, although others
+            consider microservices to be one form of SOA  [7] , perhaps  service orientation done
+            right . Either way, the fact that SOA means such different
+            things means it's valuable to have a term that more crisply
+            defines this architectural style. 
+ 
+ The microservice community favours an alternative approach:
+           smart endpoints and dumb pipes . Applications
+          built from microservices aim to be as decoupled and as
+          cohesive as possible - they own their own domain logic and act
+          more as filters in the classical Unix sense - receiving a
+          request, applying logic as appropriate and producing a
+          response. These are choreographed using simple RESTish protocols rather
+          than complex protocols such as WS-Choreography or BPEL or
+          orchestration by a central tool. 
+ The two protocols used most commonly are HTTP
+          request-response with resource API's and lightweight
+          messaging [8] . The best expression of
+          the first is 
+ 
+ Be of the web, not behind the web  
+ --  Ian Robinson 
+ 
+ Microservice teams use the principles and
+          protocols that the world wide web (and to a large extent,
+          Unix) is built on. Often used resources can be cached with very
+          little effort on the part of developers or operations
+          folk.  
+ The second approach in common use is messaging over a
+          lightweight message bus. The infrastructure chosen is
+          typically dumb (dumb as in acts as a message router only) -
+          simple implementations such as RabbitMQ or ZeroMQ don't do
+          much more than provide a reliable asynchronous fabric - the
+          smarts still live in the end points that are producing and
+          consuming messages; in the services. 
+ In a monolith, the components are executing in-process and
+          communication between them is via either method invocation or
+          function call. The biggest issue in changing a monolith into
+          microservices lies in changing the communication pattern. A
+          naive conversion from in-memory method calls to RPC leads to
+          chatty communications which don't perform well. Instead you
+          need to replace the fine-grained communication with a coarser
+          -grained approach. 
+ 
+ 
+ Decentralized Governance 
+ One of the consequences of centralised governance is the
+        tendency to standardise on single technology
+        platforms. Experience shows that this approach is constricting
+        - not every problem is a nail and not every solution a
+        hammer. We prefer using the right tool for the job and
+        while monolithic applications can take advantage of different
+        languages to a certain extent, it isn't that common. 
+ Splitting the monolith's components out into services we
+        have a choice when building each of them. You want to use
+        Node.js to standup a simple reports page? Go for it. C++ for a
+        particularly gnarly near-real-time component? Fine. You want
+        to swap in a different flavour of database that better suits
+        the read behaviour of one component? We have the technology to
+        rebuild him. 
+ Of course, just because you  can  do something,
+        doesn't mean you  should  - but partitioning your system
+        in this way means you have the option. 
+ Teams building microservices prefer a different approach to
+        standards too. Rather than use a set of defined standards
+        written down somewhere on paper they prefer the idea of
+        producing useful tools that other developers can use to solve
+        similar problems to the ones they are facing. These tools are
+        usually harvested from implementations and shared with a wider
+        group, sometimes, but not exclusively using an internal open
+        source model. Now that git and github have become the de facto
+        version control system of choice, open source practices are
+        becoming more and more common in-house . 
+ Netflix is a good example of an organisation that follows
+        this philosophy. Sharing useful and, above all, battle-tested
+        code as libraries encourages other developers to solve similar
+        problems in similar ways yet leaves the door open to picking a
+        different approach if required. Shared libraries tend to be
+        focused on common problems of data storage, inter-process
+        communication and as we discuss further below, infrastructure
+        automation. 
+ For the microservice community, overheads are particularly
+        unattractive. That isn't to say that the community doesn't
+        value service contracts. Quite the opposite, since there tend
+        to be many more of them. It's just that they are looking at
+        different ways of managing those contracts. Patterns like
+         Tolerant Reader  and  Consumer-Driven
+        Contracts  are often applied to microservices. These aid
+        service contracts in evolving independently. Executing
+        consumer driven contracts as part of your build increases
+        confidence and provides fast feedback on whether your services
+        are functioning. Indeed we know of a team in Australia who
+        drive the build of new services with consumer driven
+        contracts. They use simple tools that allow them to define the
+        contract for a service. This becomes part of the automated
+        build before code for the new service is even written. The
+        service is then built out only to the point where it satisfies
+        the contract - an elegant approach to avoid the
+        'YAGNI' [9]  dilemma when building new
+        software. These techniques and the tooling growing up around
+        them, limit the need for central contract management by
+        decreasing the temporal coupling between services.  
+ 
+ Many languages, many options 
+ The growth of JVM as a platform is just the latest
+          example of
+          mixing languages within a common platform. It's been common
+          practice to shell-out to a higher level language to take advantage
+          of higher level abstractions for decades. As is dropping down to
+          the metal and writing performance sensitive code in a lower level
+          one. However, many monoliths don't need this level of performance
+          optimisation nor are DSL's and higher level abstractions that
+          common (to our dismay). Instead monoliths are usually single
+          language and the tendency is to limit the number of technologies
+          in use  [10] . 
+ 
+ Perhaps the apogee of decentralised governance is the build
+        it / run it ethos popularised by Amazon. Teams are responsible
+        for all aspects of the software they build including operating
+        the software 24/7. Devolution of this level of responsibility
+        is definitely not the norm but we do see more and more
+        companies pushing responsibility to the development
+        teams. Netflix is another organisation that has adopted this
+        ethos [11] . Being woken up at 3am
+        every night by your pager is certainly a powerful incentive to
+        focus on quality when writing your code. These ideas are about
+        as far away from the traditional centralized governance model
+        as it is possible to be. 
+ 
+ 
+ Decentralized Data Management 
+ Decentralization of data management presents in a number of
+        different ways. At the most abstract level, it means that the
+        conceptual model of the world will differ between systems.
+        This is a common issue when integrating across a large
+        enterprise, the sales view of a customer will differ from the
+        support view. Some things that are called customers in the
+        sales view may not appear at all in the support view. Those
+        that do may have different attributes and (worse) common
+        attributes with subtly different semantics. 
+ 
+ Battle-tested standards and enforced standards 
+ It's a bit of a dichotomy that microservice teams tend to
+          eschew the kind of rigid enforced standards laid down by
+          enterprise architecture groups but will happily use and even
+          evangelise the use of open standards such as HTTP, ATOM and
+          other microformats. 
+ The key difference is how the standards are developed and
+          how they are enforced. Standards managed by groups such as
+          the IETF only  become  standards when there are several
+          live implementations of them in the wider world and which
+          often grow from successful open-source projects. 
+ These standards are a world apart from many in a
+          corporate world, which are often developed by groups that
+          have little recent programming experience or overly influenced
+          by vendors. 
+ 
+ This issue is common between applications, but can also
+        occur  within  applications, particular when that
+        application is divided into separate components. A useful way
+        of thinking about this is the Domain-Driven Design notion of
+         Bounded Context . DDD divides a complex
+        domain up into multiple bounded contexts and maps out the
+        relationships between them. This process is useful
+        for both monolithic and microservice architectures, but there
+        is a natural correlation between service and context
+        boundaries that helps clarify, and as we describe in the
+        section on business capabilities, reinforce the
+        separations. 
+ As well as decentralizing decisions about conceptual
+        models, microservices also decentralize data storage
+        decisions. While monolithic applications prefer a single logical
+        database for persistant data, enterprises often prefer a
+        single database across a range of applications - many of these
+        decisions driven through vendor's commercial models around
+        licensing.  Microservices prefer letting each service manage
+        its own database, either different instances of the same
+        database technology, or entirely different database systems -
+        an approach called  Polyglot Persistence . You
+        can use polyglot persistence in a monolith, but it appears
+        more frequently with microservices. 
+
+ 
+ Decentralizing responsibility for data across microservices
+        has implications for managing updates. The common
+        approach to dealing with updates has been to use transactions
+        to guarantee consistency when updating multiple resources.
+        This approach is often used within monoliths. 
+ Using transactions like this helps with consistency, but
+        imposes significant temporal coupling, which is problematic
+        across multiple services. Distributed transactions are
+        notoriously difficult to implement and as a consequence
+        microservice architectures  emphasize
+        transactionless coordination between services , with
+        explicit recognition that consistency may only be eventual
+        consistency and problems are dealt with by compensating
+        operations. 
+ Choosing to manage inconsistencies in this way is a new
+  challenge for many development teams, but it is one that often
+  matches business practice. Often businesses handle a degree of
+  inconsistency in order to respond quickly to demand, while
+  having some kind of reversal process to deal with
+  mistakes. The trade-off is worth it as long as the cost of
+  fixing mistakes is less than the cost of lost business under
+  greater consistency. 
+ 
+ 
+ Infrastructure Automation 
+ Infrastructure automation techniques have evolved
+        enormously over the last few years - the evolution of the
+        cloud and AWS in particular has reduced the operational
+        complexity of building, deploying and operating
+        microservices. 
+ Many of the products or systems being build with
+        microservices are being built by teams with extensive
+        experience of  Continuous Delivery  and it's
+        precursor,  Continuous
+        Integration . Teams building software this way make
+  extensive use of infrastructure automation techniques. This is
+  illustrated in the build pipeline shown below. 
+ 
+ Figure 5: basic
+        build pipeline 
+ 
+ 
+ Since this isn't an article on Continuous Delivery we will
+        call attention to just a couple of key features here. We want
+        as much confidence as possible that our software is working,
+        so we run lots of  automated tests . Promotion of working
+        software 'up' the pipeline means we  automate deployment 
+        to each new environment. 
+ 
+ Make it easy to do the right thing 
+ One side effect we have found of increased automation as
+          a consequence of continuous delivery and deployment is the
+          creation of useful tools to help developers and operations
+          folk. Tooling for creating artefacts, managing codebases,
+          standing up simple services or for adding standard
+          monitoring and logging are pretty common now. The best
+          example on the web is probably  Netflix's set of open
+          source tools , but there are others including  Dropwizard  which
+          we have used extensively. 
+ 
+ A monolithic application will be built, tested and pushed
+        through these environments quite happlily. It turns out that
+        once you have invested in automating the path to production
+        for a monolith, then deploying  more  applications
+        doesn't seem so scary any more. Remember, one of the aims of
+        CD is to make deployment boring, so whether its one or three
+        applications, as long as its still boring it doesn't
+        matter [12] .  
+ Another area where we see teams using extensive
+        infrastructure automation is when managing microservices in
+        production. In contrast to our assertion above that as long as
+        deployment is boring there isn't that much difference between
+        monoliths and microservices, the operational landscape for
+        each can be strikingly different. 
+ 
+ Figure 6: Module
+        deployment often differs 
+ 
+ Design for failure 
+ A consequence of using services as components, is that
+        applications need to be designed so that they can tolerate the
+        failure of services. Any service call could fail due to
+        unavailability of the supplier, the client has to respond to
+        this as gracefully as possible. This is a disadvantage
+        compared to a monolithic design as it introduces additional
+        complexity to handle it. The consequence is that microservice
+        teams constantly reflect on how service failures affect the
+        user experience. Netflix's  Simian Army 
+        induces failures of services and even datacenters during the
+        working day to test both the application's resilience and
+        monitoring. 
+ 
+ The circuit breaker and production ready code 
+ Circuit Breaker  appears in  Release It!  alongside other
+    patterns such as Bulkhead and Timeout. Implemented together,
+    these patterns are crucially important when building
+    communicating applications. This  Netflix
+    blog entry  does a great job of explaining their
+    application of them. 
+ 
+ This kind of automated testing in production would be
+        enough to give most operation groups the kind of shivers
+        usually preceding a week off work. This isn't to say that
+        monolithic architectural styles aren't capable of
+        sophisticated monitoring setups - it's just less common in our
+        experience. 
+ Since services can fail at any time, it's important to be
+        able to detect the failures quickly and, if possible,
+        automatically restore service. Microservice applications put a
+        lot of emphasis on real-time monitoring of the application,
+        checking both architectural elements (how many requests per
+        second is the database getting) and business relevant metrics
+        (such as how many orders per minute are received). Semantic
+        monitoring can provide an early warning system of something
+        going wrong that triggers development teams to follow up and
+        investigate. 
+ This is particularly important to a microservices
+        architecture because the microservice preference towards
+        choreography and  event collaboration 
+        leads to emergent behavior. While many pundits praise the
+        value of serendipitous emergence, the truth is that emergent
+        behavior can sometimes be a bad thing. Monitoring is vital to
+        spot bad emergent behavior quickly so it can be fixed. 
+ 
+ Synchronous calls considered harmful 
+ Any time you have a number of synchronous calls between services you will
+    encounter the multiplicative effect of downtime. Simply,
+    this is when the downtime of your system becomes the product
+    of the downtimes of the individual components. You face a
+    choice, making your calls asynchronous or managing
+    the downtime. At www.guardian.co.uk they have implemented a
+    simple rule on the new platform - one synchronous call per
+    user request while at Netflix, their platform API redesign
+    has built asynchronicity into the API fabric. 
+ 
+ Monoliths can be built to be as transparent as a
+        microservice - in fact, they should be. The difference is that
+        you absolutely need to know when services running in different
+        processes are disconnected. With libraries within the same
+        process this kind of transparency is less likely to be
+        useful. 
+ Microservice teams would expect to see sophisticated
+        monitoring and logging setups for each individual
+        service such as dashboards showing up/down status and a variety of
+        operational and business relevant metrics. Details on circuit
+        breaker status, current throughput and latency are other
+        examples we often encounter in the wild. 
+ 
+ 
+ Evolutionary Design 
+ Microservice practitioners, usually have come from
+        an evolutionary design background and see service
+        decomposition as a further tool to enable application
+        developers to control changes in their application without
+        slowing down change. Change control doesn't necessarily mean
+        change reduction - with the right attitudes and tools you can
+        make frequent, fast, and well-controlled changes to
+        software. 
+ Whenever you try to break a software system into
+        components, you're faced with the decision of how to divide up
+        the pieces - what are the principles on which we decide to
+        slice up our application? The key property of a component is
+        the notion of independent replacement and
+        upgradeability [13]  - which implies we look for
+        points where we can imagine rewriting a component without
+        affecting its collaborators.  Indeed many microservice groups
+        take this further by explicitly expecting many services to be
+        scrapped rather than evolved in the longer term. 
+ The Guardian website is a good example of an application
+        that was designed and built as a monolith, but has been
+        evolving in a microservice direction. The monolith still is
+        the core of the website, but they prefer to add new features
+        by building microservices that use the monolith's API. This
+        approach is particularly handy for features that are
+        inherently temporary, such as specialized pages to handle a
+        sporting event. Such a part of the website can quickly be put
+        together using rapid development languages, and removed once
+        the event is over. We've seen similar approaches at a
+        financial institution where new services are added for a
+        market opportunity and discarded after a few months or even
+        weeks. 
+ This emphasis on replaceability is a special case of a more
+        general principle of modular design, which is to drive
+        modularity through the pattern of change  [14] . You want to keep things that change
+        at the same time in the same module. Parts of a system that
+        change rarely should be in different services to those that
+        are currently undergoing lots of churn. If you find yourself
+        repeatedly changing two services together, that's a sign that
+        they should be merged. 
+ Putting components into services adds an opportunity for
+        more granular release planning. With a monolith any changes
+        require a full build and deployment of the entire
+        application. With microservices, however, you only need to
+        redeploy the service(s) you modified. This can simplify and
+        speed up the release process. The downside is that you have to
+        worry about changes to one service breaking its
+        consumers. The traditional integration approach is to try to deal
+        with this problem using versioning, but the preference in the
+        microservice world is to  only
+        use versioning as a last resort . We can avoid a lot of
+        versioning by designing services to be as tolerant as possible
+        to changes in their suppliers. 
+
+ Are Microservices the Future? 
+ Our main aim in writing this article is to explain the major
+      ideas and principles of microservices. By taking the time to do
+      this we clearly think that the microservices architectural style
+      is an important idea - one worth serious consideration for
+      enterprise applications. We have recently built several systems
+      using the style and know of others who have used and favor this
+      approach. 
+ 
+ Microservice Trade-Offs 
+
+    Many development teams have found the microservices architectural style to be
+    a superior approach to a monolithic architecture. But other teams
+    have found them to be a productivity-sapping burden. Like any
+    architectural style, microservices bring costs and benefits. To
+    make a sensible choice you have to understand these and apply them
+    to your specific context.
+
+ Those we know about who are in some way pioneering the
+      architectural style include Amazon, Netflix,  The Guardian , the  UK Government Digital Service ,  realestate.com.au , Forward and  comparethemarket.com . The
+      conference circuit in 2013 was full of examples of companies
+      that are moving to something that would class as microservices -
+      including Travis CI. In addition there are plenty of
+      organizations that have long been doing what we would class as
+      microservices, but without ever using the name. (Often this is
+      labelled as SOA - although, as we've said, SOA comes in many
+      contradictory forms.  [15] )  
+ Despite these positive experiences, however, we aren't
+      arguing that we are certain that microservices are the future
+      direction for software architectures. While our experiences so
+      far are positive compared to monolithic applications, we're
+      conscious of the fact that not enough time has passed for us to
+      make a full judgement. 
+ Often the true consequences of your architectural decisions
+      are only evident several years after you made them. We have seen
+      projects where a good team, with a strong desire for
+      modularity, has built a monolithic architecture that has
+      decayed over the years. Many people believe that such decay is
+      less likely with microservices, since the service boundaries are
+      explicit and hard to patch around. Yet until we see enough
+      systems with enough age, we can't truly assess how microservice
+      architectures mature. 
+ There are certainly reasons why one might expect
+      microservices to mature poorly. In any effort at
+      componentization, success depends on how well the software fits
+      into components. It's hard to figure out exactly where the
+      component boundaries should lie. Evolutionary design recognizes
+      the difficulties of getting boundaries right and thus the
+      importance of it being easy to refactor them. But when your
+      components are services with remote communications, then
+      refactoring is much harder than with in-process libraries.
+      Moving code is difficult across service boundaries, any
+      interface changes need to be coordinated between participants,
+      layers of backwards compatibility need to be added, and testing
+      is made more complicated. 
+ 
+ Our colleague Sam Newman spent most of 2014 working on a
+        book that captures our experiences with building
+        microservices. This should be your next step if you want a deeper
+        dive into the topic. 
+ 
+ Another issue is If the components do not compose cleanly, then
+      all you are doing is shifting complexity from inside a component
+      to the connections between components. Not just does this just
+      move complexity around, it moves it to a place that's less
+      explicit and harder to control. It's easy to think things are
+      better when you are looking at the inside of a small, simple
+      component, while missing messy connections between services. 
+ Finally, there is the factor of team skill. New techniques
+      tend to be adopted by more skillful teams. But a technique that
+      is more effective for a more skillful team isn't necessarily
+      going to work for less skillful teams. We've seen plenty of
+      cases of less skillful teams building messy monolithic
+      architectures, but it takes time to see what happens when this
+      kind of mess occurs with microservices. A poor team will always
+      create a poor system - it's very hard to tell if microservices
+      reduce the mess in this case or make it worse. 
+ One reasonable argument we've heard is that you shouldn't
+      start with a microservices architecture. Instead
+       begin with a monolith ,
+      keep it modular, and split it into microservices once the
+      monolith becomes a problem. (Although
+       this advice isn't ideal ,
+      since a good in-process interface is usually not a good service interface.) 
+ So we write this with cautious optimism. So far, we've seen
+      enough about the microservice style to feel that it can be
+       a worthwhile road to tread .
+      We can't say for sure where we'll end
+      up, but one of the challenges of software development is that
+      you can only make decisions based on the imperfect information
+      that you currently have to hand. 
+ 
+ 
+ 
+ 
+ 
+ Footnotes 
+ 
+ 1:  
+      The term "microservice" was discussed at a workshop of software
+      architects near Venice in May, 2011 to describe what the
+      participants saw as a common architectural style that many of
+      them had been recently exploring. In May 2012, the same group decided on
+      "microservices" as the most appropriate name. James presented some of these
+      ideas as a case study in March 2012 at 33rd Degree in Krakow in
+       Microservices
+      - Java, the Unix Way  as did Fred George  about
+      the same time . Adrian Cockcroft at Netflix, describing this
+      approach as "fine grained SOA" was pioneering the style at web
+      scale as were many of the others mentioned in this article - Joe
+      Walnes, Daniel Terhorst-North, Evan Botcher and
+      Graham Tackley.
+     
+ 
+ 
+ 2:  
+      The term monolith has been in use by the Unix community for some
+      time. It appears in  The Art of Unix
+      Programming  to describe systems that get too big.
+     
+ 
+ 
+ 3:  
+      Many object-oriented designers, including ourselves, use the
+      term service object in the  Domain-Driven
+      Design  sense for an object that carries out a significant
+      process that isn't tied to an entity. This is a different
+      concept to how we're using "service" in this article. Sadly the
+      term service has both meanings and we have to live with the
+      polyseme.
+     
+ 
+ 
+ 4:  
+      We consider  an application to be a social
+      construction  that binds together a code base, group of
+      functionality, and body of funding.
+     
+ 
+ 
+ 5:  
+      The original paper can be found on Melvin Conway's website  here 
+ 
+ 
+ 6:  
+      We can't resist mentioning Jim Webber's statement that ESB
+      stands for  "Erroneous
+      Spaghetti Box" .  
+ 
+ 
+ 7:  
+      Netflix makes the link explicit - until recently referring to
+      their architectural style as fine-grained SOA.
+     
+ 
+ 
+ 8:  
+      At extremes of scale, organisations often move to binary
+      protocols -  protobufs  for
+      example. Systems using these still exhibit the characteristic of
+      smart endpoints, dumb pipes - and trade off  transparency 
+      for scale. Most web properties and certainly the vast majority
+      of enterprises don't need to make this tradeoff - transparency
+      can be a big win.
+     
+ 
+ 
+ 9:  
+      "YAGNI" or "You Aren't Going To Need It" is an  XP
+      principle  and exhortation to not add features until you know
+      you need them.
+     
+ 
+ 
+ 10:  
+      It's a little disengenuous of us to claim that monoliths are
+      single language - in order to build systems on todays web, you
+      probably need to know JavaScript and XHTML, CSS, your server
+      side language of choice, SQL and an ORM dialect. Hardly single
+      language, but you know what we mean.
+     
+ 
+ 
+ 11:  
+      Adrian Cockcroft specifically mentions "developer self-service"
+      and "Developers run what they wrote"(sic) in  this
+      excellent presentation  delivered at Flowcon in November,
+      2013.
+     
+ 
+ 
+ 12:  
+      We are being a little disengenuous here. Obviously deploying
+      more services, in more complex topologies is more difficult than
+      deploying a single monolith. Fortunately, patterns reduce this
+      complexity - investment in tooling is still a must though.
+     
+ 
+ 
+ 13:  
+      In fact, Daniel Terhorst-North refers to this style as  Replaceable
+      Component Architecture  rather than microservices. Since this
+      seems to talk to a subset of the characteristics we prefer the
+      latter.
+     
+ 
+ 
+ 14:  
+      Kent Beck highlights this as one his design principles in
+       Implementation Patterns .
+     
+ 
+ 
+ 15:  
+      And SOA is hardly the root of this history. I remember people saying
+      "we've been doing this for years" when the SOA term appeared at
+      the beginning of the century. One argument was that this style
+      sees its roots as the way COBOL programs communicated via data
+      files in the earliest days of enterprise computing. In another
+      direction, one could argue that microservices are the same thing
+      as the Erlang programming model, but applied to an enterprise
+      application context.
+
+ Faster release cycles are one of the major advantages of microservices architectures. But without a good CI/CD process, you won't achieve the agility that microservices promise. This article describes the challenges and recommends some approaches to the problem. 
+ What is CI/CD? 
+ When we talk about CI/CD, we're really talking about several related processes: Continuous integration, continuous delivery, and continuous deployment. 
+ 
+ Continuous integration . Code changes are frequently merged into the main branch. Automated build and test processes ensure that code in the main branch is always production-quality. 
+ 
+ Continuous delivery . Any code changes that pass the CI process are automatically published to a production-like environment. Deployment into the live production environment may require manual approval, but is otherwise automated. The goal is that your code should always be  ready  to deploy into production. 
+ 
+ Continuous deployment . Code changes that pass the previous two steps are automatically deployed  into production . 
+ 
+ 
+ Here are some goals of a robust CI/CD process for a microservices architecture: 
+ 
+ Each team can build and deploy the services that it owns independently, without affecting or disrupting other teams. 
+ 
+ Before a new version of a service is deployed to production, it gets deployed to dev/test/QA environments for validation. Quality gates are enforced at each stage. 
+ 
+ A new version of a service can be deployed side by side with the previous version. 
+ 
+ Sufficient access control policies are in place. 
+ 
+ For containerized workloads, you can trust the container images that are deployed to production. 
+ 
+ 
+ Why a robust CI/CD pipeline matters 
+ In a traditional monolithic application, there is a single build pipeline whose output is the application executable. All development work feeds into this pipeline. If a high-priority bug is found, a fix must be integrated, tested, and published, which can delay the release of new features. You can mitigate these problems by having well-factored modules and using feature branches to minimize the impact of code changes. But as the application grows more complex, and more features are added, the release process for a monolith tends to become more brittle and likely to break. 
+ Following the microservices philosophy, there should never be a long release train where every team has to get in line. The team that builds service "A" can release an update at any time, without waiting for changes in service "B" to be merged, tested, and deployed. 
+ 
+ To achieve a high release velocity, your release pipeline must be automated and highly reliable to minimize risk. If you release to production one or more times daily , regressions or service disruptions must be rare. At the same time, if a bad update does get deployed, you must have a reliable way to quickly roll back or roll forward to a previous version of a service. 
+ Challenges 
+ 
+ Many small independent code bases . Each team is responsible for building its own service, with its own build pipeline. In some organizations, teams may use separate code repositories. Separate repositories can lead to a situation where the knowledge of how to build the system is spread across teams, and nobody in the organization knows how to deploy the entire application. For example, what happens in a disaster recovery scenario, if you need to quickly deploy to a new cluster? 
+ Mitigation : Have a unified and automated pipeline to build and deploy services, so that this knowledge is not "hidden" within each team. 
+ 
+ Multiple languages and frameworks . With each team using its own mix of technologies, it can be difficult to create a single build process that works across the organization. The build process must be flexible enough that every team can adapt it for their choice of language or framework. 
+ Mitigation : Containerize the build process for each service. That way, the build system just needs to be able to run the containers. 
+ 
+ Integration and load testing . With teams releasing updates at their own pace, it can be challenging to design robust end-to-end testing, especially when services have dependencies on other services. Moreover, running a full production cluster can be expensive, so it's unlikely that every team will run its own full cluster at production scales, just for testing. 
+ 
+ Release management . Every team should be able to deploy an update to production. That doesn't mean that every team member has permissions to do so. But having a centralized Release Manager role can reduce the velocity of deployments. 
+ Mitigation : The more that your CI/CD process is automated and reliable, the less there should be a need for a central authority. That said, you might have different policies for releasing major feature updates versus minor bug fixes. Being decentralized doesn't mean zero governance. 
+ 
+ Service updates . When you update a service to a new version, it shouldn't break other services that depend on it. 
+ Mitigation : Use deployment techniques such as blue-green or canary release for non-breaking changes. For breaking API changes, deploy the new version side by side with the previous version. That way, services that consume the previous API can be updated and tested for the new API. See  Updating services , below. 
+ 
+ 
+ Monorepo vs. multi-repo 
+ Before creating a CI/CD workflow, you must know how the code base will be structured and managed. 
+ 
+ Do teams work in separate repositories or in a monorepo (single repository)? 
+ What is your branching strategy? 
+ Who can push code to production? Is there a release manager role? 
+ 
+ The monorepo approach has been gaining favor but there are advantages and disadvantages to both. 
+ 
+ 
+ 
+   
+ Monorepo 
+ Multiple repos 
+ 
+ 
+ 
+ 
+ Advantages 
+ Code sharing Easier to standardize code and tooling Easier to refactor code Discoverability - single view of the code 
+ Clear ownership per team Potentially fewer merge conflicts Helps to enforce decoupling of microservices 
+ 
+ 
+ Challenges 
+ Changes to shared code can affect multiple microservices Greater potential for merge conflicts Tooling must scale to a large code base Access control More complex deployment process 
+ Harder to share code Harder to enforce coding standards Dependency management Diffuse code base, poor discoverability Lack of shared infrastructure 
+ 
+ 
+ 
+ Updating services 
+ There are various strategies for updating a service that's already in production. Here we discuss three common options: Rolling update, blue-green deployment, and canary release. 
+ Rolling updates 
+ In a rolling update, you deploy new instances of a service, and the new instances start receiving requests right away. As the new instances come up, the previous instances are removed. 
+ Example.  In Kubernetes, rolling updates are the default behavior when you update the pod spec for a Deployment. The Deployment controller creates a new ReplicaSet for the updated pods. Then it scales up the new ReplicaSet while scaling down the old one, to maintain the desired replica count. It doesn't delete old pods until the new ones are ready. Kubernetes keeps a history of the update, so you can roll back an update if needed. 
+ Example.  Azure Service Fabric uses the rolling update strategy by default. This strategy is best suited for deploying a version of a service with new features without changing existing APIs. Service Fabric starts an upgrade deployment by updating the application type to a subset of the nodes or an update domain. It then rolls forward to the next update domain until all domains are upgraded. If an upgrade domain fails to update, the application type rolls back to the previous version across all domains. Be aware that an application type with multiple services (and if all services are updated as part of one upgrade deployment) is prone to failure. If one service fails to update, the entire application is rolled back to the previous version and the other services are not updated. 
+ One challenge of rolling updates is that during the update process, a mix of old and new versions are running and receiving traffic. During this period, any request could get routed to either of the two versions. 
+ For breaking API changes, a good practice is to support both versions side by side, until all clients of the previous version are updated. See  API versioning . 
+ Blue-green deployment 
+ In a blue-green deployment, you deploy the new version alongside the previous version. After you validate the new version, you switch all traffic at once from the previous version to the new version. After the switch, you monitor the application for any problems. If something goes wrong, you can swap back to the old version. Assuming there are no problems, you can delete the old version. 
+ With a more traditional monolithic or N-tier application, blue-green deployment generally meant provisioning two identical environments. You would deploy the new version to a staging environment, then redirect client traffic to the staging environment — for example, by swapping VIP addresses. In a microservices architecture, updates happen at the microservice level, so you would typically deploy the update into the same environment and use a service discovery mechanism to swap. 
+ Example . In Kubernetes, you don't need to provision a separate cluster to do blue-green deployments. Instead, you can take advantage of selectors. Create a new Deployment resource with a new pod spec and a different set of labels. Create this deployment, without deleting the previous deployment or modifying the service that points to it. Once the new pods are running, you can update the service's selector to match the new deployment. 
+ One drawback of blue-green deployment is that during the update, you are running twice as many pods for the service (current and next). If the pods require a lot of CPU or memory resources, you may need to scale out the cluster temporarily to handle the resource consumption. 
+ Canary release 
+ In a canary release, you roll out an updated version to a small number of clients. Then you monitor the behavior of the new service before rolling it out to all clients. This lets you do a slow rollout in a controlled fashion, observe real data, and spot problems before all customers are affected. 
+ A canary release is more complex to manage than either blue-green or rolling update, because you must dynamically route requests to different versions of the service. 
+ Example . In Kubernetes, you can configure a Service to span two replica sets (one for each version) and adjust the replica counts manually. However, this approach is rather coarse-grained, because of the way Kubernetes load balances across pods. For example, if you have a total of 10 replicas, you can only shift traffic in 10% increments. If you are using a service mesh, you can use the service mesh routing rules to implement a more sophisticated canary release strategy. 
+ 
+
+ Introduction [ edit ] 
+ There is no single definition for microservices. A consensus view has evolved over time in the industry. Some of the defining characteristics that are frequently cited include:
+ 
+ Services in a microservice architecture are often  processes  that communicate over a  network  to fulfill a goal using technology-agnostic  protocols  such as HTTP. [2] [3] [4] 
+ Services are organized around business capabilities. [5] 
+ Services can be implemented using different  programming languages ,  databases , hardware and software environments, depending on what fits best. [6] 
+ Services are small in size, messaging-enabled, bounded by contexts, autonomously developed, independently deployable, [7] [6]  decentralized and  built  and  released with automated processes . [7] 
+ A microservice is not a layer within a monolithic application (example, the web controller, or the backend-for-frontend). [8]  Rather, it is a self-contained piece of business functionality with clear interfaces, and may, through its own internal components, implement a layered architecture. From a strategical perspective, microservice architecture essentially follows the  Unix philosophy  of "Do one thing and do it well". [9]   Martin Fowler  describes a microservices-based architecture as having the following properties: [2] 
+ 
+ Lends itself to a  continuous delivery  software development process. A change to a small part of the application only requires rebuilding and redeploying only one or a small number of services. [10] 
+ Adheres to principles such as  fine-grained   interfaces  (to independently deployable services), business-driven development (e.g.  domain-driven design ). [11] 
+ It is common for microservices architectures to be adopted for  cloud-native applications ,  serverless computing , and applications using lightweight  container  deployment. According to Fowler, because of the large number (when compared to monolithic application implementations) of services, decentralized continuous delivery and  DevOps  with holistic service monitoring are necessary to effectively develop, maintain, and operate such applications. [12]  A consequence of (and rationale for) following this approach is that the individual microservices can be individually scaled. In the monolithic approach, an application supporting three functions would have to be scaled in its entirety even if only one of these functions had a resource constraint. [13]  With microservices, only the microservice supporting the function with resource constraints needs to be scaled out, thus providing resource and cost optimization benefits. [14] 
+ 
+ History [ edit ] 
+ There are numerous claims as to the origin of the term microservices.
+Whilst vice president of  ThoughtWorks  in 2004,  Fred George  began working on prototype architectures based on what he called the "Baysean Principles" named after Jeff Bay. [15] 
+ As early as 2005, Peter Rodgers introduced the term "Micro- Web-Services " during a presentation at the Web Services Edge conference. Against conventional thinking and at the height of the  SOAP  SOA architecture hype curve he argued for " REST -services" and on slide #4 of the conference presentation, he discusses " Software components  are Micro-Web-Services". [16]  He goes on to say "Micro-Services are composed using  Unix-like pipelines  (the  Web  meets Unix = true  loose-coupling ). Services can call services (+multiple language run-times). Complex service assemblies are abstracted behind simple  URI  interfaces. Any service, at any granularity, can be exposed." He described how a well-designed microservices platform "applies the underlying architectural principles of the  Web  and REST services together with Unix-like scheduling and pipelines to provide radical flexibility and improved simplicity in service-oriented architectures. [17] 
+ Rodgers' work originated in 1999 with the Dexter research project at  Hewlett Packard Labs , whose aim was to make code less brittle and to make large-scale, complex software systems  robust  to change. [18]  Ultimately this path of research led to the development of  resource-oriented computing  (ROC), a generalized computation abstraction in which REST is a special subset.
+ In 2007, Juval Löwy in his writing [19]  and speaking [20] [21]  called for building systems in which every class was a service. Löwy realized this required the use of a technology that can support such granular use of services, and he extended  Windows Communication Foundation (WCF)  to do just that, [22] [23]  taking every class and treating it as a service while maintaining the conventional programming model of classes.
+ In 2005  Alistair Cockburn  wrote about  Hexagonal architecture (software)  which is a software design pattern that is used along with the microservices. This pattern makes the design of the microservice possible since it isolates in layers the business logic from the auxiliary services needed in order to deploy and run the microservice completely independent from others.
+ A workshop of software architects held near Venice in May 2011 used the term "microservice" to describe what the participants saw as a common architectural style that many of them had been recently exploring. [24]  In May 2012, the same group decided on "microservices" as the most appropriate name. James Lewis presented some of those ideas as a  case study  in March 2012 at 33rd Degree in Kraków in Microservices - Java, the Unix Way, [25]  as did Fred George [26]  about the same time.  Adrian Cockcroft , former director for the Cloud Systems at Netflix, [27]  described this approach as "fine-grained SOA", pioneered the style at web-scale, as did many of the others mentioned in this article - Joe Walnes, Dan North, Evan Bottcher, and Graham Tackley. [28] 
+ Microservices is a specialization of an implementation approach for  service-oriented architectures  (SOA) used to build flexible, independently deployable  software systems . [5]  The microservices approach is the first realisation of SOA that followed the introduction of  DevOps  and is becoming more popular for building  continuously deployed  systems. [29] 
+ In February 2020, the Cloud Microservices Market Research Report predicted that the global microservice architecture market size will increase at a  CAGR  of 21.37% from 2019 to 2026 and reach $3.1 billion by 2026. [30] 
+ 
+ Service granularity [ edit ] 
+ A key step in defining a microservice architecture is figuring out how big an individual microservice has to be. There is no consensus or litmus test for this, as the right answer depends on the business and organizational context. [31]  For instance,  Amazon  uses a  service-oriented architecture  where service often maps 1:1 with a team of 3 to 10 engineers. [32]  Generally, the terminology goes as such: services that are dedicated to a single task, such as calling a particular backend system or making a particular type of calculation, are called  atomic services . Similarly, services that call such atomic services in order to consolidate an output, are called  composite services .
+ It is considered bad practice to make the service too small, as then the runtime overhead and the operational complexity can overwhelm the benefits of the approach. When things get too fine-grained, alternative approaches must be considered - such as packaging the function as a library, moving the function into other microservices. [5] 
+ If the  domain-driven design  is being employed in modeling the domain for which the system is being built, then a microservice could be as small as an aggregate or as large as a bounded Context. [33] 
+ In the granularity of microservices discussion, there is a spectrum, in one end there are the Anaemic Services, which do not have a large number of responsibilities, and on the other end, the Modular Monolith, which are large modules of a system.
+ 
+ Benefits [ edit ] 
+ The benefit of decomposing an application into different smaller services are numerous:
+ 
+ Modularity : This makes the application easier to understand, develop, test, and become more resilient to architecture erosion. [6]  This benefit is often argued in comparison to the complexity of monolithic architectures. [34] 
+ Scalability : Since microservices are implemented and deployed independently of each other, i.e. they run within independent processes, they can be monitored and scaled independently. [35] 
+ Integration  of heterogeneous and  legacy systems : microservices is considered a viable means for modernizing existing monolithic software application. [36] [37]   There are experience reports of several companies who have successfully replaced (parts of) their existing software with microservices or are in the process of doing so. [38]  The process for  Software modernization  of legacy applications is done using an incremental approach. [39] 
+ Distributed development: it parallelizes  development  by enabling small autonomous teams to develop,  deploy  and scale their respective services independently. [40]  It also allows the architecture of an individual service to emerge through continuous  refactoring . [41]  Microservice-based architectures facilitate  continuous integration ,  continuous delivery  and deployment. [42] 
+ Criticism and concerns [ edit ] 
+ The microservices approach is subject to criticism for a number of issues:
+ 
+ Services form information barriers. [43] 
+ Inter-service calls over a network have a higher cost in terms of network latency and message processing time than in-process  calls  within a  monolithic  service process. [2] 
+ Testing  and  deployment  are more complicated. [44] [45] 
+ Moving responsibilities between services is more difficult. [6]  It may involve communication between different teams, rewriting the functionality in another language or fitting it into a different infrastructure. [2]  However, microservices can be deployed independently from the rest of the application, while teams working on monoliths need to synchronize to deploy together. [39] 
+ Viewing the size of services as the primary structuring mechanism can lead to too many services when the alternative of internal modularization may lead to a simpler design. [46]  This requires understanding the overall architecture of the applications and interdependencies between components. [47] 
+ Two-phased commits are regarded as an anti-pattern in microservices-based architectures as this results in a tighter coupling of all the participants within the transaction. However, the lack of this technology causes awkward dances which have to be implemented by all the transaction participants in order to maintain data consistency. [48] 
+ Development and support of many services are more challenging if they are built with different tools and technologies - this is especially a problem if engineers move between projects frequently. [49] 
+ The protocol typically used with microservices (HTTP) was designed for public-facing services, and as such is unsuitable for working internal microservices that often must be impeccably reliable. [50] 
+ While not specific to microservices, the decomposition methodology often uses functional decomposition, which does not handle changes in the requirements while still adding the complexity of services. [50] 
+ The very concept of microservice is misleading since there are only services. There is no sound definition of when a service starts or stops being a microservice. [50] 
+ Data aggregation. In order to have a full view of a working system, it is required to extract data sets from the microservices repositories and aggregate them into a single schema. For example, to be able to create operational reports that are not possible using a single microservice repository. 
+ Cognitive load [ edit ] 
+ The architecture introduces additional complexity and new problems to deal with, such as  network latency ,  message format  design, [51]   Backup /Availability/Consistency (BAC), [52]   load balancing  and  fault tolerance . [45]  All of these problems have to be addressed at scale.
+The complexity of a  monolithic application  does not disappear if it is re-implemented as a set of microservices. Some of the complexity gets translated into operational complexity. [53]  Other places where the complexity manifests itself are increased network traffic and resulting in slower performance. Also, an application made up of any number of microservices has a larger number of interface points to access its respective  ecosystem , which increases the architectural complexity. [54]  Various organizing principles (such as  HATEOAS , interface and data model documentation captured via  Swagger , etc.) have been applied to reduce the impact of such additional complexity.
+ 
+ Technologies [ edit ] 
+ Computer microservices can be implemented in different programming languages and might use different infrastructures. Therefore, the most important technology choices are the way microservices communicate with each other (synchronous, asynchronous, UI integration) and the protocols used for the communication (RESTful HTTP, messaging,  GraphQL  ...). In a traditional system, most technology choices like the programming language impact the whole system. Therefore, the approach to choosing technologies is quite different. [55] 
+ The  Eclipse Foundation  has published a specification for developing microservices, Eclipse MicroProfile. [56] [57] 
+ 
+ Service mesh [ edit ] 
+ See also:  Service mesh 
+ In a service mesh, each service instance is paired with an instance of a reverse proxy server, called a service proxy, sidecar proxy, or sidecar. The service instance and sidecar proxy share a container, and the containers are managed by a container orchestration tool such as  Kubernetes ,  Nomad ,  Docker Swarm , or  DC/OS .
+The service proxies are responsible for communication with other service instances and can support capabilities such as service (instance) discovery, load balancing, authentication and authorization, secure communications, and others.
+ In a service mesh, the service instances and their sidecar proxies are said to make up the data plane, which includes not only data management but also request processing and response. The service mesh also includes a control plane for managing the interaction between services, mediated by their sidecar proxies. [ citation needed ] 
+ 
+ A comparison of platforms [ edit ] 
+ Implementing a microservice architecture is very difficult. There are many concerns (see table below) that any microservice architecture needs to address.  Netflix  developed a microservice framework to support their internal applications, and then open-sourced [58]  many portions of that framework. Many of these tools have been popularized via the  Spring Framework  – they have been re-implemented as Spring-based tools under the umbrella of the Spring Cloud [59]  project. The table below shows a comparison of an implementing feature from the  Kubernetes  ecosystem with an equivalent from the Spring Cloud world. [60]  One noteworthy aspect of the Spring Cloud ecosystem is that they are all Java-based technologies, whereas Kubernetes is a polyglot runtime platform.
+ 
+ 
+ 
+ Microservices concern
+ 
+ Spring Cloud & Netflix OSS
+ 
+ Kubernetes
+ 
+ 
+ Configuration management: configuration for a microservice application needs to be externalized from the code and be retrievable via a simple service call.
+ 
+ Spring Config Server, Netflix Archaius both support a Git-repository—based location for configuration. Archaius supports data typing of configuration.
+ 
+ Kubernetes ConfigMaps exposes the configuration stored in etcd via services. Kubernetes Secrets supports the service-based secure deployment and usage of sensitive configuration information (such as passwords, certificates, etc.).
+ 
+ 
+ Service discovery : maintain a list of service instances that are available for work within a microservice domain.
+ 
+ Spring Cloud Eureka allows clients to register to it, maintains a heartbeat with registered clients, and maps service names to hostnames for clients that lookup services by service name.
+ 
+ Kubernetes Services provide deployment-time registration of instances of services that are internally available within the cluster. Ingress is a mechanism whereby a service can be exposed to clients outside the cluster.
+ 
+ 
+ Load balancing: The key to scaling a distributed system is being able to run more than one instance of a component. Load has to be then distributed across those instances via a load balancer.
+ 
+ Spring Cloud Ribbon provides the ability for service clients to load balance across instances of the service.
+ 
+ Kubernetes Service provides the ability for the service to be load-balanced across service instances. This is not the equivalent of what Ribbon provides.
+ 
+ 
+ API gateway: The granularity of APIs provided by microservices is often different than what a service client needs. API Gateways implement facades and provide additional services like proxying, and protocol translation, and other management functions.
+ 
+ Spring Cloud Zuul provides configuration-based API facades
+ 
+ Kubernetes Service and Ingress resources, Istio, Ambassador are solutions that provide both north–south (traffic into and out of data center) as well as east–west (traffic across data centers or clouds or regions) API gateway functions. Zuul can also be implemented along with Kubernetes, providing configuration at individual service level.
+ 
+ 
+ Security concerns: Many security concerns are pushed to the API gateway implementation. With distributed microservice applications, it makes sense to not reinvent the security wheel and allow for policy definition and implementation in components that are shared by all services.
+ 
+ Spring Cloud Security addresses many security concerns through Spring Cloud Zuul
+ 
+ The Kubernetes ecosystem provides service meshes like Istio, which are capable of providing security through their API gateway mechanisms.
+ 
+ 
+ Centralized logging: It is important to have a centralized log gathering and analysis infrastructure to manage a plethora of services – many of which are operating in a distributed fashion.
+ 
+ ELK Stack ( Elasticsearch , LogStash,  Kibana )
+ 
+ EFK Stack ( Elasticsearch ,  Fluentd ,  Kibana )
+ 
+ 
+ Centralized metrics: A centralized area where the health and performance of the individual services and overall system can be monitored is essential to proper operations.
+ 
+ Spring Spectator & Atlas
+ 
+ Heapster, Prometheus, &  Grafana 
+ 
+ 
+ Distributed tracing: Per-process logging and metric monitoring have their place, but neither can reconstruct the complex paths that transactions take as they propagate across a distributed system. Distributed tracing is an essential tool for a microservices platform.
+ 
+ Spring Cloud Sleuth
+ 
+ Hawkular,  Jaeger 
+ 
+ 
+ Resilience and fault tolerance: Distributed systems must be capable of auto-routing around failures, and be capable of routing requests to the service instance that will provide an optimum response.
+ 
+ Spring Hystrix, Turbine, & Ribbon
+ 
+ Health check,  service meshes  (example: Istio) [61] 
+ 
+ 
+ Autoscaling and self-healing: Distributed systems respond to higher load by scaling horizontally: the platform must detect and auto-respond to such conditions. Furthermore, the system needs to detect failures and attempt auto-restarts without operator input.
+ 
+ -
+ 
+ Health check, self-healing, and auto-scaling
+ 
+ 
+ Packaging, deployment, and scheduling: Large-scale systems require robust package management, and deployment systems to manage rolling or blue-green deployments, and rollbacks if necessary. A scheduler helps determine which particular execution node a new set of services can be deployed to based on current conditions.
+ 
+ Spring Boot, Apache Maven. The Spring Cloud system does not have a true scheduler.
+ 
+ Docker, Rkt, Kubernetes Scheduler & Deployment, Helm [62] 
+ 
+ 
+ Job management: scheduled computations disconnected from any individual user requests.
+ 
+ Spring Batch
+ 
+ Kubernetes Jobs and Scheduled Jobs
+ 
+ 
+ Singleton application: limit a specific service to run as the only instance of that service within the entire system.
+ 
+ Spring Cloud Cluster
+ 
+ Kubernetes Pods
+ 
