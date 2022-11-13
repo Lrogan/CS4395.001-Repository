@@ -29,3 +29,6 @@ A Repository for all code assignments for Human Language Technologies
 
 # Portfolio Assignment 5: Author Attribution
 [The PDF](Portfolio_Assignment5/AuthorAttribution.pdf)    |    [Jupyter Notebook](Portfolio_Assignment5/AuthorAttribution.ipynb)    |     [Data Sheet](Portfolio_Assignment5/federalist.csv)
+
+# Portfolio Assignment 6: Chatbot
+[The Report](Portfolio_Assignment6/ChatbotReport.docx)    |    [The Code](Portfolio_Assignment6/Chatbot.py)    | [The Knowledge Base](Portfolio_Assignment6/Chatbot.txt)
