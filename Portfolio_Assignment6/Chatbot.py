@@ -64,6 +64,14 @@ class User:
   def updateLastContact(self):
     self.lastContact = dt.datetime.now()
 
+  def toString(self):
+    print("User : " + self.name)
+    print("\tLikes: " + str(self.likes))
+    print("\tDislikes: " + str(self.dislikes))
+    print("\tNeutrals: " + str(self.neutral))
+    print("\tDays Since Last Chatted: ", self.getDaysFromLastContact())
+
+
 users = {}
 currentUser = ""
 cwd = os.getcwd().replace("\\","/")
@@ -181,6 +189,7 @@ def response(userInput):
 
 #initialization
 users = loadUsers()
+skipped = False
 
 def userExists(input):
   global currentUser
@@ -194,34 +203,45 @@ print("If you wish to exit, type bye")
 print("Bottington: My name is Bottington. I will answer your queries about Microservices. Whats your name?")
 userInput = input()
 userInput = userInput.lower()
-if (userExists(userInput)):
-  print("Bottington: Nice to chat with you again " + currentUser)
-else:
-  print("Bottington: Oh I haven't met you before do you mind saying just your name again? Nothing else just your name.")
-  userInput = input()
-  userInput = userInput.lower()
-  createNewUser(userInput)
-  print("Bottington: Nice to meet you " + currentUser)
-
-#main loop
-Chatting=True
-while(Chatting):
-  userInput = input()
-  userInput = userInput.lower()
-  if(userInput != 'bye'):
-    if(userInput == 'thanks' or userInput == 'thank you' ):
-      Chatting = False
-      print("Bottington: No Problem!")
-    else:
-      if(greeting(userInput) != None):
-        print("Bottington: " + greeting(userInput))
-        tailoredOpener()
-      else:
-        print("Bottington: ", end = "")
-        print(response(userInput))
-        sentenceTokens.remove(userInput)
+if(userInput != 'bye'):
+  if (userExists(userInput)):
+    print("Bottington: Nice to chat with you again " + currentUser)
   else:
-    Chatting = False
+    print("Bottington: Oh I haven't met you before do you mind saying just your name again? Nothing else just your name.")
+    userInput = input()
+    userInput = userInput.lower()
+    createNewUser(userInput)
+    print("Bottington: Nice to meet you " + currentUser)
+else:
     print("Bottington: Cya!")  
+    skipped = True
 
-closeUserSession(currentUser)
+
+if(not skipped):
+  #main loop
+  Chatting=True
+  while(Chatting):
+    userInput = input()
+    userInput = userInput.lower()
+    if(userInput != 'bye'):
+      if(userInput == 'thanks' or userInput == 'thank you' ):
+        Chatting = False
+        print("Bottington: No Problem!")
+      else:
+        if(greeting(userInput) != None):
+          print("Bottington: " + greeting(userInput))
+          tailoredOpener()
+        else:
+          print("Bottington: ", end = "")
+          print(response(userInput))
+          sentenceTokens.remove(userInput)
+    else:
+      Chatting = False
+      print("Bottington: Cya!")  
+
+  closeUserSession(currentUser)
+
+userInput = input()
+if(userInput == "print users"):
+  for u in users.keys():
+    users[u].toString()
