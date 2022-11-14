@@ -241,7 +241,12 @@ if(not skipped):
 
   closeUserSession(currentUser)
 
+#section for extra functionality to be added in the future if needed
+print("Would you like to use a utility?")
 userInput = input()
-if(userInput == "print users"):
-  for u in users.keys():
-    users[u].toString()
+if(userInput == "yes"):
+  print("type what utility you woudl like to use")
+  userInput = input()
+  if(userInput == "print users"):
+    for u in users.keys():
+      users[u].toString()
