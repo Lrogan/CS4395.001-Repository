@@ -32,3 +32,6 @@ A Repository for all code assignments for Human Language Technologies
 
 # Portfolio Assignment 6: Chatbot
 [The Report](Portfolio_Assignment6/ChatbotReport.docx)    |    [The Code](Portfolio_Assignment6/Chatbot.py)    | [The Knowledge Base](Portfolio_Assignment6/chatbot.txt)
+
+# Portfolio Assignment 7: Text Classification
+[The Notebook](Portfolio_Assignment7/TextClassification.pynb)|[The PDF](Portfolio_Assignment7/TextClassification.pdf)|[The Website](Portfolio_Assignment7/TextClassification.html)|[The Data](Portfolio_Assignment7/data.csv)
